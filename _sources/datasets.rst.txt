@@ -1,0 +1,27 @@
+.. _datasets:
+
+数据集
+======
+
+可在以下地址下载若干不同的数据集：
+https://demuc.de/colmap/datasets/
+
+- **Gerrard Hall**：UNC Chapel Hill 的 “Gerrard” 大厅的 100 张高分辨率图像，该建筑就在
+  “South” 楼旁边。这些图像使用同一台相机、采用广角镜头但以不同的对焦拍摄。
+- **Graham Hall**：UNC Chapel Hill 的 “Graham” 纪念堂内部与外部的 1273 张高分辨率图像。
+  这些图像使用同一台相机、采用广角镜头但以不同的对焦拍摄。
+- **Person Hall**：UNC Chapel Hill 的 “Person” 大厅的 330 张高分辨率图像。这些图像使用
+  同一台相机、采用广角镜头拍摄。
+- **South Building**：UNC Chapel Hill 的 “South” 楼的 128 张图像。这些图像使用同一台
+  相机拍摄，由 Christopher Zach 友情提供。
+
+可在此处查看若干由 COLMAP 生成的示例重建：
+
+**稀疏重建**：
+
+- https://youtu.be/PmXqdfBQxfQ
+- https://youtu.be/DIv1aGKqSIk
+
+**稠密重建**：
+
+- https://youtu.be/11awtGWSqQU

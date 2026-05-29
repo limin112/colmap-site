@@ -1,0 +1,216 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>特征提取与匹配 &mdash; COLMAP 4.1.0.dev0 | 92cc0123 (2026-05-29) 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6631871d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f9d9534"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="数据库格式" href="database.html" />
+    <link rel="prev" title="核心概念" href="concepts.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  <a href="index.html" class="icon icon-home">
+    COLMAP
+  </a>
+    <div class="version">
+      4.1.0.dev0 | 92cc0123 (2026-05-29)
+    </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">特征提取与匹配</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">特征提取器类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">特征匹配器类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">兼容的提取器与匹配器类型</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aliked">ALIKED 模型变体</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cameras.html">相机模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">输出格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">图形用户界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">历史版本文档</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COLMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">特征提取与匹配</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/features.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="features">
+<span id="id1"></span><h1>特征提取与匹配<a class="headerlink" href="#features" title="链接到此标题。"></a></h1>
+<p>COLMAP 支持多种特征提取与特征匹配算法。本页介绍如何通过命令行界面或图形用户界面在它们
+之间进行切换。</p>
+<section id="id2">
+<h2>特征提取器类型<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>可用的特征提取器类型如下：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SIFT</span></code>：尺度不变特征变换（默认）。经典且经过最广泛测试的特征提取器。产生 128 维的
+uint8 描述子。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ALIKED</span></code>：A Lighter Keypoint and Descriptor Extractor（更轻量的关键点与描述子提取器）。
+一种基于学习的特征提取器，产生浮点型描述子。要求在编译时启用 ONNX 支持
+（<code class="docutils literal notranslate"><span class="pre">-DONNX_ENABLED=ON</span></code>）。</p></li>
+</ul>
+<p>通过命令行选择特征提取器类型:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ colmap feature_extractor \
+    --database_path $DATASET_PATH/database.db \
+    --image_path $DATASET_PATH/images \
+    --FeatureExtraction.type ALIKED_N16ROT \
+    --AlikedExtraction.max_num_features 2048
+</pre></div>
+</div>
+<p>对于 SIFT（默认），你可以省略类型，也可以显式设置它:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ colmap feature_extractor \
+    --database_path $DATASET_PATH/database.db \
+    --image_path $DATASET_PATH/images \
+    --FeatureExtraction.type SIFT \
+    --SiftExtraction.max_num_features 8192
+</pre></div>
+</div>
+<p>在 GUI 中，打开 <code class="docutils literal notranslate"><span class="pre">Processing</span> <span class="pre">&gt;</span> <span class="pre">Feature</span> <span class="pre">extraction</span></code> 并在点击 Extract 之前选择所需的
+标签页（SIFT、ALIKED 等）。</p>
+</section>
+<section id="id3">
+<h2>特征匹配器类型<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>可用的特征匹配器类型如下：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SIFT_BRUTEFORCE</span></code>：针对 SIFT 描述子优化的暴力匹配（默认）。使用带比值检验的 L2 距离。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ALIKED_BRUTEFORCE</span></code>：针对 ALIKED 描述子的暴力匹配。使用余弦相似度。要求在编译时启用
+ONNX 支持。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SIFT_LIGHTGLUE</span></code>：针对 SIFT 描述子，使用 LightGlue 模型的基于神经网络的匹配。相比
+暴力匹配，它通常能产生更多的匹配和更高的内点率，尤其是对于视角或光照变化较大的高难度
+图像对。要求在编译时启用 ONNX 支持。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ALIKED_LIGHTGLUE</span></code>：针对 ALIKED 描述子，使用 LightGlue 模型的基于神经网络的匹配。
+要求在编译时启用 ONNX 支持。</p></li>
+</ul>
+<p>通过命令行选择特征匹配器类型:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ colmap exhaustive_matcher \
+    --database_path $DATASET_PATH/database.db \
+    --FeatureMatching.type ALIKED_BRUTEFORCE \
+    --AlikedMatching.min_cossim 0.85
+</pre></div>
+</div>
+<p>对于 SIFT 匹配（默认）:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ colmap exhaustive_matcher \
+    --database_path $DATASET_PATH/database.db \
+    --FeatureMatching.type SIFT_BRUTEFORCE \
+    --SiftMatching.max_ratio 0.8
+</pre></div>
+</div>
+<p>在 GUI 中，打开 <code class="docutils literal notranslate"><span class="pre">Processing</span> <span class="pre">&gt;</span> <span class="pre">Feature</span> <span class="pre">matching</span></code>，选择任一匹配标签页（Exhaustive、
+Sequential 等），并在共享选项区域的 “Type” 下拉框中选择匹配器类型。</p>
+</section>
+<section id="id4">
+<h2>兼容的提取器与匹配器类型<a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>特征提取器与匹配器的类型应当相互兼容：</p>
+<ul class="simple">
+<li><p>将 <code class="docutils literal notranslate"><span class="pre">SIFT</span></code> 提取与 <code class="docutils literal notranslate"><span class="pre">SIFT_BRUTEFORCE</span></code> 或 <code class="docutils literal notranslate"><span class="pre">SIFT_LIGHTGLUE</span></code> 匹配配合使用。</p></li>
+<li><p>将 <code class="docutils literal notranslate"><span class="pre">ALIKED_*</span></code> 提取与 <code class="docutils literal notranslate"><span class="pre">ALIKED_BRUTEFORCE</span></code> 或 <code class="docutils literal notranslate"><span class="pre">ALIKED_LIGHTGLUE</span></code> 匹配配合使用。</p></li>
+</ul>
+<p>混用不兼容的类型（例如，SIFT 特征配合 ALIKED 匹配器）将导致运行时错误。不要在同一个
+数据库中混用不同的特征提取器类型（例如，SIFT 和 ALIKED）。</p>
+</section>
+<section id="aliked">
+<h2>ALIKED 模型变体<a class="headerlink" href="#aliked" title="链接到此标题。"></a></h2>
+<p>ALIKED 需要一个 ONNX 模型文件。提供了若干种在速度与精度之间有不同取舍的模型变体：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">aliked-n16rot</span></code>：更快，并针对一定程度的视角不变性进行了训练。128 维描述子。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">aliked-n32</span></code>：开销更大，但未专门针对视角不变性进行训练，128 维描述子。</p></li>
+</ul>
+<p>使用 <code class="docutils literal notranslate"><span class="pre">--AlikedExtraction.*_model_path</span></code> 指定模型路径。如果该路径是一个 URL，COLMAP 将
+自动下载并缓存该模型。你可以从发布页面 <a class="reference external" href="https://github.com/colmap/colmap/releases/">https://github.com/colmap/colmap/releases/</a>
+下载不同的 ALIKED 模型。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="concepts.html" class="btn btn-neutral float-left" title="核心概念" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="database.html" class="btn btn-neutral float-right" title="数据库格式" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Johannes L. Schoenberger。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

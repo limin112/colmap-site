@@ -1,0 +1,180 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>图形用户界面 &mdash; COLMAP 4.1.0.dev0 | 92cc0123 (2026-05-29) 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6631871d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f9d9534"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="命令行界面" href="cli.html" />
+    <link rel="prev" title="数据集" href="datasets.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  <a href="index.html" class="icon icon-home">
+    COLMAP
+  </a>
+    <div class="version">
+      4.1.0.dev0 | 92cc0123 (2026-05-29)
+    </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">特征提取与匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cameras.html">相机模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">输出格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">图形用户界面</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">模型查看器操作</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">渲染选项</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">创建截图</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">创建屏幕录像</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">历史版本文档</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COLMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">图形用户界面</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/gui.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gui">
+<span id="id1"></span><h1>图形用户界面<a class="headerlink" href="#gui" title="链接到此标题。"></a></h1>
+<p>COLMAP 的图形用户界面提供了对大多数可用功能的访问，并以“实时”方式可视化重建过程。要
+启动 GUI，你可以运行预构建的安装包（Windows：<code class="docutils literal notranslate"><span class="pre">COLMAP.bat</span></code>，Mac：<code class="docutils literal notranslate"><span class="pre">COLMAP.app</span></code>），
+在已安装 COLMAP 的情况下执行 <code class="docutils literal notranslate"><span class="pre">colmap</span> <span class="pre">gui</span></code>，或从 CMake 构建文件夹中执行
+<code class="docutils literal notranslate"><span class="pre">./src/colmap/exe/colmap</span> <span class="pre">gui</span></code>。该 GUI 应用程序需要一个至少支持 OpenGL 3.2 的连接
+显示器。已配准的图像以红色显示，重建出的点则以从图像中提取的平均点颜色显示。该查看器
+还可以可视化由多视图立体（MVS）生成的稠密点云。</p>
+<section id="id2">
+<h2>模型查看器操作<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<ul class="simple">
+<li><p><strong>旋转模型</strong>：左键单击并拖动。</p></li>
+<li><p><strong>平移模型</strong>：右键单击或 &lt;CTRL&gt;-单击（&lt;CMD&gt;-单击）并拖动。</p></li>
+<li><p><strong>缩放模型</strong>：滚动滚轮。</p></li>
+<li><p><strong>更改点大小</strong>：&lt;CTRL&gt;-滚动（&lt;CMD&gt;-滚动）。</p></li>
+<li><p><strong>更改相机大小</strong>：&lt;ALT&gt;-滚动。</p></li>
+<li><p><strong>调整裁剪平面</strong>：&lt;SHIFT&gt;-滚动。</p></li>
+<li><p><strong>选择点</strong>：双击左键选中点（如果太小，请更改点大小）。绿色线条可视化了看到该点的
+各幅图像中的投影。打开的窗口显示该点在所有图像中的投影位置。</p></li>
+<li><p><strong>选择相机</strong>：双击左键选中相机（如果太小，请更改相机大小）。紫色线条可视化了与所选
+图像至少看到一个公共点的图像。打开的窗口显示该图像的若干统计信息。</p></li>
+<li><p><strong>重置视图</strong>：要重置所有查看设置，请选择 <code class="docutils literal notranslate"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Reset</span> <span class="pre">view</span></code>。</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>渲染选项<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>模型查看器允许你使用不同的设置、投影、颜色映射等来渲染模型。请选择
+<code class="docutils literal notranslate"><span class="pre">Render</span> <span class="pre">&gt;</span> <span class="pre">Render</span> <span class="pre">options</span></code>。</p>
+</section>
+<section id="id4">
+<h2>创建截图<a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>要为当前视点创建截图（不含坐标轴），请选择 <code class="docutils literal notranslate"><span class="pre">Extras</span> <span class="pre">&gt;</span> <span class="pre">Grab</span> <span class="pre">image</span></code> 并以你选择的格式
+保存图像。</p>
+</section>
+<section id="id5">
+<h2>创建屏幕录像<a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<p>要为重建出的模型创建视频屏幕录像，请选择 <code class="docutils literal notranslate"><span class="pre">Extras</span> <span class="pre">&gt;</span> <span class="pre">Grab</span> <span class="pre">movie</span></code>。此对话框允许你通过
+选择 <code class="docutils literal notranslate"><span class="pre">Add</span></code> 来设置各个控制视点。COLMAP 通过对线性轨迹进行平滑插值，并对点击 <code class="docutils literal notranslate"><span class="pre">Add</span></code>
+时所配置的点大小和相机大小进行插值，在每两个控制视点之间生成固定数量的每秒帧数。要更改
+两个视点之间的帧数或重新排序各个视点，请通过双击表格中相应的单元格来修改该视点的时间。
+请注意，视频捕获要求在渲染选项中设置透视投影模型。你可以在查看器中查看以浅蓝色渲染的
+轨迹。如果你已完成轨迹的创建，请选择 <code class="docutils literal notranslate"><span class="pre">Assemble</span> <span class="pre">movie</span></code>。随后，输出目录中将包含视频
+捕获的各个帧，可以使用 <a class="reference external" href="https://www.ffmpeg.org/">FFMPEG</a> 通过以下命令将其合成为
+一部影片:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ffmpeg</span> <span class="o">-</span><span class="n">i</span> <span class="n">frame</span><span class="o">%</span><span class="mi">06</span><span class="n">d</span><span class="o">.</span><span class="n">png</span> <span class="o">-</span><span class="n">r</span> <span class="mi">30</span> <span class="o">-</span><span class="n">vf</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1680</span><span class="p">:</span><span class="mi">1050</span> <span class="n">movie</span><span class="o">.</span><span class="n">mp4</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="datasets.html" class="btn btn-neutral float-left" title="数据集" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="cli.html" class="btn btn-neutral float-right" title="命令行界面" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Johannes L. Schoenberger。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

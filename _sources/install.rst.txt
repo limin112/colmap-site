@@ -1,0 +1,398 @@
+.. _installation:
+
+安装
+====
+
+你可以下载预编译二进制文件之一，或者手动编译源代码。预编译二进制文件及其他资源
+可从 https://demuc.de/colmap/ 下载。
+
+针对 Linux/Unix/BSD 发行版的系统软件包概览可在
+https://repology.org/metapackage/colmap/versions 查看。请注意，Linux/Unix/BSD
+默认代码仓库中的 COLMAP 软件包不带 CUDA 支持，如需 CUDA 支持，则必须按下文所述
+从源代码手动构建。
+
+对于 Mac 用户，`Homebrew <https://brew.sh>`__ 提供了一个 COLMAP 的 formula，
+其中包含预编译二进制文件，或可选择从源代码构建。安装好 homebrew 之后，安装 COLMAP
+只需运行 ``brew install colmap`` 即可。
+
+COLMAP 可以作为独立应用程序通过命令行或图形用户界面使用。此外，COLMAP 也可构建为
+一个可复用的库，也就是说，你可以将 COLMAP 包含进自己的 C++ 源代码并与之链接，
+具体见下文所述。再者，你还可以在 Python 中通过
+:ref:`PyCOLMAP <pycolmap/index>` 使用 COLMAP 的大部分功能。
+
+------------------
+预编译二进制文件
+------------------
+
+Windows
+-------
+
+为方便起见，Windows 的预编译二进制文件同时包含图形界面和命令行界面的可执行文件。
+要启动 COLMAP GUI，你只需双击 ``COLMAP.bat`` 批处理脚本，或者从 Windows
+命令行 shell 或 Powershell 中运行它。命令行界面也可通过该批处理脚本访问，它会
+自动设置必要的库路径。要列出可用的 COLMAP 命令，请在命令行 shell ``cmd.exe``
+或 Powershell 中运行 ``COLMAP.bat -h``。第一次运行 COLMAP 时，Windows
+defender 可能会向你弹出安全警告，因为这些二进制文件并未经过官方签名。所提供的
+COLMAP 二进制文件由 GitHub Actions CI 机器自动构建。如果你不信任它们，可以按
+下文所述从源代码构建。
+
+Docker
+------
+
+COLMAP 提供了一个带 CUDA 支持的预编译 Docker 镜像。关于如何使用 Docker 构建和
+运行 COLMAP 的详细说明，请参阅
+`Docker 文档 <https://github.com/colmap/colmap/tree/main/docker>`__。
+
+-----------------
+从源代码构建
+-----------------
+
+COLMAP 可在所有主流平台（Linux、Mac、Windows）上轻松构建。首先，检出最新的源代码::
+
+    git clone https://github.com/colmap/colmap
+
+在 Linux 和 Mac 下，通常建议遵循下面的安装说明，它们使用各自系统的包管理器来安装
+所需的依赖项。或者，在系统软件包有限的较为冷门的系统上，可以使用 VCPKG 的说明从零
+编译所需的依赖项。在 Windows、计算集群上，或者当你在 Linux 或 Mac 下没有 root
+权限时，VCPKG 方式也是首选方法。
+
+
+Debian/Ubuntu
+-------------
+
+*推荐依赖项：* CUDA（至少 11.X 版本）
+
+来自 Ubuntu 默认代码仓库的依赖项::
+
+    sudo apt-get install \
+        git \
+        cmake \
+        ninja-build \
+        build-essential \
+        libboost-program-options-dev \
+        libboost-graph-dev \
+        libboost-system-dev \
+        libeigen3-dev \
+        libopenimageio-dev \
+        openimageio-tools \
+        libmetis-dev \
+        libgoogle-glog-dev \
+        libgtest-dev \
+        libgmock-dev \
+        libsqlite3-dev \
+        libglew-dev \
+        qt6-base-dev \
+        libqt6opengl6-dev \
+        libqt6openglwidgets6 \
+        libqt6svg6-dev \
+        libcgal-dev \
+        libceres-dev \
+        libsuitesparse-dev \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        libmkl-full-dev
+    # Fix issue in Ubuntu's openimageio CMake config.
+    # We don't depend on any of openimageio's OpenCV functionality,
+    # but it still requires the OpenCV include directory to exist.
+    sudo mkdir -p /usr/include/opencv4
+
+或者，你也可以使用以下命令针对 Qt 5 而非 Qt 6 进行构建::
+
+    qtbase5-dev libqt5opengl5-dev libqt5svg5-dev
+
+要编译为带 **CUDA 支持**，还需安装 Ubuntu 默认的 CUDA 软件包::
+
+    sudo apt-get install -y \
+        nvidia-cuda-toolkit \
+        nvidia-cuda-toolkit-gcc
+
+或者，从 NVIDIA 官网手动安装最新的 CUDA。在 CMake 配置期间，如果你只想在当前机器上
+运行 COLMAP（默认），请指定 ``-DCMAKE_CUDA_ARCHITECTURES=native``；若要能够分发到
+其他机器，请指定 "all"/"all-major"；或者指定某个特定的 CUDA 架构，如 "75" 等。
+
+配置并编译 COLMAP::
+
+    git clone https://github.com/colmap/colmap.git
+    cd colmap
+    mkdir build
+    cd build
+    cmake .. -GNinja -DBLA_VENDOR=Intel10_64lp
+    ninja
+    sudo ninja install
+
+运行 COLMAP::
+
+    colmap -h
+    colmap gui
+
+在 **Ubuntu 22.04** 下，使用 Ubuntu 默认的 CUDA 软件包和 GCC 编译时存在一个问题，
+你必须针对 GCC 10 进行编译::
+
+    sudo apt-get install gcc-10 g++-10
+    export CC=/usr/bin/gcc-10
+    export CXX=/usr/bin/g++-10
+    export CUDAHOSTCXX=/usr/bin/g++-10
+    # ... and then run CMake against COLMAP's sources.
+
+请注意，``BLA_VENDOR=Intel10_64lp`` 选项会告诉 CMake 去查找 Intel 的 MKL 版 BLAS
+实现。如果你决定针对 OpenBLAS 而非 MKL 进行编译，那么在 Debian/Ubuntu 下你必须安装
+并选择 OpenMP 版本，原因见
+`此问题 <https://github.com/facebookresearch/faiss/wiki/Troubleshooting#surprising-faiss-openmp-and-openblas-interaction>`__。
+
+Mac
+---
+
+来自 `Homebrew <https://brew.sh/>`__ 的依赖项::
+
+    brew install \
+        cmake \
+        ninja \
+        boost \
+        eigen \
+        openimageio \
+        curl \
+        libomp \
+        metis \
+        glog \
+        googletest \
+        ceres-solver \
+        suitesparse \
+        qt \
+        glew \
+        cgal \
+        sqlite3
+    brew link --force libomp
+
+配置并编译 COLMAP::
+
+    git clone https://github.com/colmap/colmap.git
+    cd colmap
+    mkdir build
+    cd build
+    cmake .. -GNinja
+    ninja
+    sudo ninja install
+
+如果你的系统上同时也安装了 Qt 5，那么在配置 CMake 时，你可能需要临时链接你的
+Qt 5 安装::
+
+    brew unlink qt && brew link --force qt
+    cmake ...
+
+运行 COLMAP::
+
+    colmap -h
+    colmap gui
+
+
+Windows
+-------
+
+*推荐依赖项：* CUDA（至少 11.X 版本）、Visual Studio 2019 或更新版本
+
+在 Windows 上，推荐的方式是使用 VCPKG 构建 COLMAP::
+
+    git clone https://github.com/microsoft/vcpkg
+    cd vcpkg
+    .\bootstrap-vcpkg.bat
+    .\vcpkg install colmap[cuda,tests]:x64-windows
+
+要为多个计算架构编译 CUDA，请使用::
+
+    .\vcpkg install colmap[cuda-redist]:x64-windows
+
+更多细节请参阅下一节。
+
+
+VCPKG
+-----
+
+COLMAP 作为 VCPKG 发行版的一部分进行分发。这使得在不同平台上能够方便地从零构建
+COLMAP 及其所有依赖项。请注意，VCPKG 要求你在所用平台上以标准方式手动安装 CUDA。
+要使用 VCPKG 编译 COLMAP，请运行::
+
+    git clone https://github.com/microsoft/vcpkg
+    cd vcpkg
+    ./bootstrap-vcpkg.sh
+    ./vcpkg install colmap:x64-linux
+
+VCPKG 自带对各种其他平台的支持（例如 x64-osx、x64-windows 等）。要编译为带 CUDA
+支持并构建所有测试::
+
+    ./vcpkg install colmap[cuda,tests]:x64-linux
+
+上述命令将构建 COLMAP 的最新发布版本。要编译 dev 分支中的最新提交，你可以使用以下
+选项::
+
+    ./vcpkg install colmap:x64-linux --head
+
+要修改源代码，你可以进一步添加 ``--editable --no-downloads``。或者，如果你想从另一个
+文件夹进行构建并使用来自 vcpkg 的依赖项，请先运行 ``./vcpkg integrate install``
+（在 Windows 下使用 pwsh 和 ``./scripts/shell/enter_vs_dev_shell.ps1``），然后
+按如下方式配置 COLMAP::
+
+    cd path/to/colmap
+    mkdir build
+    cd build
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=path/to/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Release
+    cmake --build . --config release --target colmap --parallel 24
+
+Anaconda/Mamba
+--------------
+
+安装 miniconda 并运行以下命令。你可以将 ``conda`` 替换为 ``mamba`` 以加快软件包安装速度::
+
+    conda create -n colmap python=3.12
+    conda config --add channels conda-forge
+    conda config --set channel_priority strict
+    conda install \
+        cmake \
+        ninja \
+        boost \
+        ccache \
+        eigen \
+        openimageio \
+        curl \
+        metis \
+        glog \
+        gtest \
+        ceres-solver \
+        suitesparse \
+        qt \
+        glew \
+        sqlite \
+        cgal-cpp \
+        mesa-libgl-devel-cos7-x86_64 \
+        cuda-compiler==12.6.2 \
+        cuda-cudart-dev \
+        cuda-nvrtc-dev \
+        libcurand-dev
+
+    git clone https://github.com/colmap/colmap.git
+    cd colmap
+    mkdir build
+    cd build
+    cmake .. -GNinja
+    ninja
+
+
+
+.. _installation-library:
+
+-------
+库
+-------
+
+如果你想将 COLMAP 包含进自己的库并与之链接，最简单的方式是使用 CMake 作为构建配置
+工具。在配置好 COLMAP 构建并运行 ``ninja/make install`` 之后，COLMAP 会自动将所有
+头文件安装到 ``${CMAKE_INSTALL_PREFIX}/include/colmap``，将所有库安装到
+``${CMAKE_INSTALL_PREFIX}/lib/colmap``，并将 CMake 配置安装到
+``${CMAKE_INSTALL_PREFIX}/share/colmap``。
+
+例如，使用如下 ``CMakeLists.txt`` 即可像下面这样轻松地针对 COLMAP 编译你自己的源代码::
+
+    cmake_minimum_required(VERSION 3.10)
+
+    project(SampleProject)
+
+    find_package(colmap REQUIRED)
+    # or to require a specific version: find_package(colmap 3.4 REQUIRED)
+
+    add_executable(hello_world hello_world.cc)
+    target_link_libraries(hello_world colmap::colmap)
+
+配合源代码 ``hello_world.cc``::
+
+    #include <cstdlib>
+    #include <iostream>
+
+    #include <colmap/controllers/option_manager.h>
+    #include <colmap/util/string.h>
+
+    int main(int argc, char** argv) {
+        colmap::InitializeGlog(argv);
+
+        std::string message;
+        colmap::OptionManager options;
+        options.AddRequiredOption("message", &message);
+        if (!options.Parse(argc, argv)) {
+            return EXIT_FAILURE;
+        }
+
+        std::cout << colmap::StringPrintf("Hello %s!\n", message.c_str());
+
+        return EXIT_SUCCESS;
+    }
+
+然后按如下方式编译并运行你的代码::
+
+    mkdir build
+    cd build
+    export colmap_DIR=${CMAKE_INSTALL_PREFIX}/share/colmap
+    cmake .. -GNinja
+    ninja
+    ./hello_world --message "world"
+
+本示例的源代码存放在 ``doc/sample-project`` 下。
+
+----------------
+共享库
+----------------
+
+默认情况下，COLMAP 构建静态库。要改为构建共享库/动态库，请启用 ``BUILD_SHARED_LIBS``
+选项::
+
+    cmake .. -GNinja -DBUILD_SHARED_LIBS=ON
+
+与静态库相比的权衡：
+
+- **更快的增量链接**：在开发期间，只需重新链接发生变更的那个共享库，而不必重新链接
+  所有可执行文件。
+- **更低的磁盘占用**：多个可执行文件在磁盘和内存中共享相同的库文件。
+- **无跨库优化**：编译器无法跨共享库边界进行内联或应用链接期优化（LTO/IPO），这会
+  降低运行时性能。
+- **符号解析开销**：动态链接器在加载时解析符号，会增加少量的启动开销以及间接调用
+  开销。
+
+对于开发工作流而言，共享库可以显著加快"编辑-编译-测试"的循环。对于生产环境或基准
+测试，则推荐使用静态库。
+
+----------------
+AddressSanitizer
+----------------
+
+如果你想构建启用了 address sanitizer 标志的 COLMAP，你需要使用一个支持 ASan 的较新
+编译器。例如，你可以在你的 Ubuntu 机器上手动安装一个较新的 clang 版本，并按如下方式
+调用 CMake::
+
+    CC=/usr/bin/clang CXX=/usr/bin/clang++ cmake .. \
+        -DASAN_ENABLED=ON \
+        -DTESTS_ENABLED=ON \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo
+
+请注意，将 ASan 与调试符号结合起来通常很有用，这样能为所报告的问题获得有意义的调用
+跟踪。
+
+-------------
+文档
+-------------
+
+1. 安装最新的 pycolmap 以获取最新的 pycolmap API 文档。
+2. 构建文档::
+
+        cd path/to/colmap/doc
+        pip install -r requirements.txt
+        make html
+        open _build/html/index.html # preview results
+
+   或者，你也可以将文档构建为 PDF、EPUB 等格式::
+
+        make latexpdf
+        open _build/pdf/COLMAP.pdf
+
+3. 克隆网站代码仓库 `colmap/colmap.github.io <https://github.com/colmap/colmap.github.io>`__。
+4. 将位于 ``_build/html`` 的生成文件内容复制到所克隆代码仓库的根目录。
+5. 向 `colmap/colmap.github.io <https://github.com/colmap/colmap.github.io>`__
+   代码仓库创建一个包含更新文件的 pull request。
+6. （可选，如果是主发布版本）将上一个发布版本作为旧版本（legacy）复制到 "legacy"
+   文件夹中，放在以发布版本号命名的文件夹下 `见此处 <https://github.com/colmap/colmap.github.io/tree/master/legacy>`__。

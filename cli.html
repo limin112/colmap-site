@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>命令行界面 &mdash; COLMAP 4.1.0.dev0 | 92cc0123 (2026-05-29) 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6631871d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f9d9534"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="PyCOLMAP" href="pycolmap/index.html" />
+    <link rel="prev" title="图形用户界面" href="gui.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  <a href="index.html" class="icon icon-home">
+    COLMAP
+  </a>
+    <div class="version">
+      4.1.0.dev0 | 92cc0123 (2026-05-29)
+    </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">特征提取与匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cameras.html">相机模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">输出格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">图形用户界面</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">命令行界面</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">帮助</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">命令</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">可视化</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">历史版本文档</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COLMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">命令行界面</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cli.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cli">
+<span id="id1"></span><h1>命令行界面<a class="headerlink" href="#cli" title="链接到此标题。"></a></h1>
+<p>命令行界面提供了对 COLMAP 全部功能的访问，可用于自动化脚本。每个核心功能都实现为
+<code class="docutils literal notranslate"><span class="pre">colmap</span></code> 可执行文件的一个命令。运行 <code class="docutils literal notranslate"><span class="pre">colmap</span> <span class="pre">-h</span></code> 可列出所有可用命令（在 Windows
+下为 <code class="docutils literal notranslate"><span class="pre">COLMAP.bat</span> <span class="pre">-h</span></code>）。注意，如果你从 CMake 构建文件夹运行 COLMAP，可执行文件位于
+<code class="docutils literal notranslate"><span class="pre">./src/colmap/exe/colmap</span></code>。要启动图形用户界面，请运行 <code class="docutils literal notranslate"><span class="pre">colmap</span> <span class="pre">gui</span></code>。</p>
+<section id="id2">
+<h2>示例<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>假设你将项目的图像按如下结构存放:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/path/to/project/...
++── images
+│   +── image1.jpg
+│   +── image2.jpg
+│   +── ...
+│   +── imageN.jpg
+</pre></div>
+</div>
+<p>则自动重建工具的命令为:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># The project folder must contain a folder &quot;images&quot; with all the images.
+$ DATASET_PATH=/path/to/project
+
+$ colmap automatic_reconstructor \
+    --workspace_path $DATASET_PATH \
+    --image_path $DATASET_PATH/images
+</pre></div>
+</div>
+<p>注意，任何命令都可以使用 <code class="docutils literal notranslate"><span class="pre">-h,--help</span></code> 命令行参数列出其所有可用选项。如果你需要对重建
+过程中各个参数进行更精细的控制，可以执行下面的命令序列，作为自动重建命令的替代方案:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># The project folder must contain a folder &quot;images&quot; with all the images.
+$ DATASET_PATH=/path/to/dataset
+
+$ colmap feature_extractor \
+   --database_path $DATASET_PATH/database.db \
+   --image_path $DATASET_PATH/images
+
+$ colmap exhaustive_matcher \
+   --database_path $DATASET_PATH/database.db
+
+$ mkdir -p $DATASET_PATH/sparse
+
+$ colmap mapper \
+    --database_path $DATASET_PATH/database.db \
+    --image_path $DATASET_PATH/images \
+    --output_path $DATASET_PATH/sparse
+
+$ mkdir -p $DATASET_PATH/dense
+
+$ colmap image_undistorter \
+    --image_path $DATASET_PATH/images \
+    --input_path $DATASET_PATH/sparse/0 \
+    --output_path $DATASET_PATH/dense \
+    --output_type COLMAP \
+    --max_image_size 2000
+
+$ colmap patch_match_stereo \
+    --workspace_path $DATASET_PATH/dense \
+    --workspace_format COLMAP \
+    --PatchMatchStereo.geom_consistency true
+
+$ colmap stereo_fusion \
+    --workspace_path $DATASET_PATH/dense \
+    --workspace_format COLMAP \
+    --input_type geometric \
+    --output_path $DATASET_PATH/dense/fused.ply
+
+$ colmap poisson_mesher \
+    --input_path $DATASET_PATH/dense/fused.ply \
+    --output_path $DATASET_PATH/dense/meshed-poisson.ply
+
+$ colmap delaunay_mesher \
+    --input_path $DATASET_PATH/dense \
+    --output_path $DATASET_PATH/dense/meshed-delaunay.ply
+
+# Optionally simplify a dense mesh to reduce its size.
+$ colmap mesh_simplifier \
+    --input_path $DATASET_PATH/dense/meshed-poisson.ply \
+    --output_path $DATASET_PATH/dense/meshed-poisson-simplified.ply \
+    --MeshSimplification.target_face_ratio 0.25
+
+# Optionally texture a mesh using the undistorted images.
+$ colmap mesh_texturer \
+    --workspace_path $DATASET_PATH/dense \
+    --input_path $DATASET_PATH/dense/meshed-poisson.ply \
+    --output_path $DATASET_PATH/dense/textured
+</pre></div>
+</div>
+<p>如果想使用全局 SfM 流程而非增量式建图器，请将 <code class="docutils literal notranslate"><span class="pre">mapper</span></code> 步骤替换为 <code class="docutils literal notranslate"><span class="pre">global_mapper</span></code>。
+全局建图器依赖良好的焦距先验，因此如果没有可靠的内参可用（例如来自 EXIF 或实验室标定），
+你应当先运行 <code class="docutils literal notranslate"><span class="pre">view_graph_calibrator</span></code>。该步骤是可选的，但建议执行以提升全局 SfM 的质量，
+这也一直是 <a class="reference external" href="https://github.com/colmap/glomap">GLOMAP</a> 中的默认做法。注意，
+<code class="docutils literal notranslate"><span class="pre">view_graph_calibrator</span></code> 会就地修改数据库中的相机内参和两视图几何，因此建议在数据库的
+副本上进行操作:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ colmap feature_extractor \
+   --database_path $DATASET_PATH/database.db \
+   --image_path $DATASET_PATH/images
+
+$ colmap exhaustive_matcher \
+   --database_path $DATASET_PATH/database.db
+
+# Optional but often needed: calibrate intrinsics from the view graph.
+# This modifies the database in-place, so work on a copy.
+$ cp $DATASET_PATH/database.db $DATASET_PATH/database_global.db
+$ colmap view_graph_calibrator \
+    --database_path $DATASET_PATH/database_global.db
+
+$ mkdir -p $DATASET_PATH/sparse
+
+$ colmap global_mapper \
+    --database_path $DATASET_PATH/database_global.db \
+    --image_path $DATASET_PATH/images \
+    --output_path $DATASET_PATH/sparse
+</pre></div>
+</div>
+<p>如果你想在没有连接显示器的计算机上运行 COLMAP（例如集群或云服务），只要系统支持，COLMAP
+会自动切换为使用 CUDA。如果没有可用的支持 CUDA 的设备，你可以通过设置
+<code class="docutils literal notranslate"><span class="pre">--FeatureExtraction.use_gpu</span> <span class="pre">0</span></code> 和 <code class="docutils literal notranslate"><span class="pre">--FeatureMatching.use_gpu</span> <span class="pre">0</span></code> 选项，手动选择
+使用基于 CPU 的特征提取与匹配。</p>
+</section>
+<section id="id3">
+<h2>帮助<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>可用命令可通过以下命令列出:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ colmap help
+
+    Usage:
+      colmap [command] [options]
+
+    Documentation:
+      https://colmap.github.io/
+
+    Example usage:
+      colmap help [ -h, --help ]
+      colmap gui
+      colmap gui -h [ --help ]
+      colmap automatic_reconstructor -h [ --help ]
+      colmap automatic_reconstructor --image_path IMAGES --workspace_path WORKSPACE
+      colmap feature_extractor --image_path IMAGES --database_path DATABASE
+      colmap exhaustive_matcher --database_path DATABASE
+      colmap mapper --image_path IMAGES --database_path DATABASE --output_path MODEL
+      ...
+
+    Available commands:
+      help
+      gui
+      automatic_reconstructor
+      bundle_adjuster
+      color_extractor
+      database_cleaner
+      database_creator
+      database_merger
+      delaunay_mesher
+      exhaustive_matcher
+      feature_extractor
+      feature_importer
+      geometric_verifier
+      global_mapper
+      guided_geometric_verifier
+      hierarchical_mapper
+      image_deleter
+      image_filterer
+      image_rectifier
+      image_registrator
+      image_undistorter
+      image_undistorter_standalone
+      mapper
+      matches_importer
+      mesh_simplifier
+      mesh_texturer
+      model_aligner
+      model_analyzer
+      model_clusterer
+      model_comparer
+      model_converter
+      model_cropper
+      model_merger
+      model_orientation_aligner
+      model_splitter
+      model_transformer
+      patch_match_stereo
+      point_filtering
+      point_triangulator
+      pose_prior_mapper
+      poisson_mesher
+      project_generator
+      rig_configurator
+      rotation_averager
+      sequential_matcher
+      spatial_matcher
+      stereo_fusion
+      transitive_matcher
+      view_graph_calibrator
+      vocab_tree_builder
+      vocab_tree_matcher
+      vocab_tree_retriever
+</pre></div>
+</div>
+<p>每个命令都带有 <code class="docutils literal notranslate"><span class="pre">-h,--help</span></code> 命令行参数，用于显示用法和可用选项，例如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ colmap feature_extractor -h
+
+    Options can either be specified via command-line or by defining
+    them in a .ini project file passed to ``--project_path``.
+
+        -h [ --help ]
+        --default_random_seed arg (=0)
+        --log_target arg (=stderr_and_file)
+                              {stderr, stdout, file, stderr_and_file}
+        --log_path arg
+        --log_level arg (=0)
+        --log_severity arg (=0)    0:INFO, 1:WARNING, 2:ERROR, 3:FATAL
+        --log_color arg (=1)
+        --project_path arg
+        --database_path arg
+        --image_path arg
+        --camera_mode arg (=-1)
+        --image_list_path arg
+        --descriptor_normalization arg (=l1_root)
+                                              {&#39;l1_root&#39;, &#39;l2&#39;}
+        --ImageReader.mask_path arg
+        --ImageReader.camera_model arg (=SIMPLE_RADIAL)
+        --ImageReader.single_camera arg (=0)
+        --ImageReader.single_camera_per_folder arg (=0)
+        --ImageReader.single_camera_per_image arg (=0)
+        --ImageReader.existing_camera_id arg (=-1)
+        --ImageReader.camera_params arg
+        --ImageReader.default_focal_length_factor arg (=1.2)
+        --ImageReader.camera_mask_path arg
+        --FeatureExtraction.type arg (=SIFT)
+        --FeatureExtraction.max_image_size arg (=3200)
+        --FeatureExtraction.num_threads arg (=-1)
+        --FeatureExtraction.use_gpu arg (=1)
+        --FeatureExtraction.gpu_index arg (=-1)
+        --SiftExtraction.max_num_features arg (=8192)
+        --SiftExtraction.first_octave arg (=-1)
+        --SiftExtraction.num_octaves arg (=4)
+        --SiftExtraction.octave_resolution arg (=3)
+        --SiftExtraction.peak_threshold arg (=0.0066666666666666671)
+        --SiftExtraction.edge_threshold arg (=10)
+        --SiftExtraction.estimate_affine_shape arg (=0)
+        --SiftExtraction.max_num_orientations arg (=2)
+        --SiftExtraction.upright arg (=0)
+        --SiftExtraction.domain_size_pooling arg (=0)
+        --SiftExtraction.dsp_min_scale arg (=0.16666666666666666)
+        --SiftExtraction.dsp_max_scale arg (=3)
+        --SiftExtraction.dsp_num_scales arg (=10)
+</pre></div>
+</div>
+<p>可用选项既可以直接从命令行提供，也可以通过提供给 <code class="docutils literal notranslate"><span class="pre">--project_path</span></code> 的 <code class="docutils literal notranslate"><span class="pre">.ini</span></code> 文件提供。</p>
+</section>
+<section id="id4">
+<h2>命令<a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>下面的列表简要说明了每个命令的功能，这些命令均可通过 <code class="docutils literal notranslate"><span class="pre">colmap</span> <span class="pre">[command]</span></code> 调用：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gui</span></code>：图形用户界面，更多信息参见
+<a class="reference internal" href="gui.html#gui"><span class="std std-ref">图形用户界面</span></a>。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">automatic_reconstructor</span></code>：为一组输入图像自动重建稀疏模型和稠密模型。主要选项包括
+<code class="docutils literal notranslate"><span class="pre">--quality</span></code>（LOW、MEDIUM、HIGH、EXTREME）、<code class="docutils literal notranslate"><span class="pre">--data_type</span></code>（INDIVIDUAL、VIDEO、
+INTERNET，用于针对不同拍摄场景调整设置）、<code class="docutils literal notranslate"><span class="pre">--feature</span></code>（SIFT、ALIKED，用于选择特征
+提取算法）、<code class="docutils literal notranslate"><span class="pre">--mapper</span></code>（INCREMENTAL、HIERARCHICAL、GLOBAL，用于选择 SfM 流程）以及
+<code class="docutils literal notranslate"><span class="pre">--mesher</span></code>（POISSON、DELAUNAY，用于选择表面重建方法）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">project_generator</span></code>：以不同的质量设置生成项目文件。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_extractor</span></code>、<code class="docutils literal notranslate"><span class="pre">feature_importer</span></code>：对一组图像执行特征提取或导入特征。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">exhaustive_matcher</span></code>、<code class="docutils literal notranslate"><span class="pre">vocab_tree_matcher</span></code>、<code class="docutils literal notranslate"><span class="pre">sequential_matcher</span></code>、
+<code class="docutils literal notranslate"><span class="pre">spatial_matcher</span></code>、<code class="docutils literal notranslate"><span class="pre">transitive_matcher</span></code>、<code class="docutils literal notranslate"><span class="pre">matches_importer</span></code>：
+在执行特征提取之后执行特征匹配。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geometric_verifier</span></code>：对数据库中已有的特征匹配运行独立的几何验证。该步骤会为已匹配的
+图像对估计两视图几何（基础矩阵/本质矩阵、单应矩阵）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">guided_geometric_verifier</span></code>：在已有稀疏重建的引导下运行几何验证。利用已知的相对相机
+位姿来改进匹配验证结果。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mapper</span></code>：在执行特征提取与匹配之后，使用 SfM 对数据集进行稀疏三维重建/建图。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">global_mapper</span></code>：使用全局 SfM 流程进行稀疏三维重建。与增量式的 <code class="docutils literal notranslate"><span class="pre">mapper</span></code> 不同，
+全局方法使用旋转平均和全局定位同时求解所有相机位姿。对于大型数据集，这种方法可能更快，
+但对外点的鲁棒性可能较差。
+全局建图器依赖于足够好的焦距先验才能表现良好。请在 <code class="docutils literal notranslate"><span class="pre">global_mapper</span></code> 之前运行
+<code class="docutils literal notranslate"><span class="pre">view_graph_calibrator</span></code> 以标定相机内参并从视图图估计相对位姿，或者手动提供相机标定。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pose_prior_mapper</span></code>：使用位姿先验进行稀疏三维重建/建图。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hierarchical_mapper</span></code>：在执行特征提取与匹配之后，使用层次化 SfM 对数据集进行稀疏
+三维重建/建图。该方法通过将场景划分为相互重叠的子模型，然后独立地重建每个子模型，从而
+并行化重建过程。最后，将这些相互重叠的子模型合并为单个重建。
+建议在此步骤之后运行若干轮点三角化和光束法平差。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image_undistorter</span></code>：对图像进行去畸变，和/或将其导出以用于 MVS 或外部稠密重建软件
+（例如 CMVS/PMVS）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image_rectifier</span></code>：对相机进行立体校正并对图像去畸变，以用于立体视差估计。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image_filterer</span></code>：从稀疏重建中过滤图像。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image_deleter</span></code>：从稀疏重建中删除特定图像。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">patch_match_stereo</span></code>：在运行 <code class="docutils literal notranslate"><span class="pre">image_undistorter</span></code> 初始化工作空间之后，使用 MVS
+进行稠密三维重建/建图。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stereo_fusion</span></code>：将 <code class="docutils literal notranslate"><span class="pre">patch_match_stereo</span></code> 的结果融合为带颜色的点云。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">poisson_mesher</span></code>：使用泊松表面重建对融合后的点云进行网格化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">delaunay_mesher</span></code>：使用 Delaunay 三角化上的图割和可见性投票，对重建得到的稀疏或
+稠密点云进行网格化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_simplifier</span></code>：使用二次误差度量（QEM）抽取法简化三角网格（PLY 格式）。该步骤
+在保持网格整体形状和外观的同时减少其面数。主要选项包括
+<code class="docutils literal notranslate"><span class="pre">--MeshSimplification.target_face_ratio</span></code>，用于控制要保留的面的比例（默认 0.1）、
+<code class="docutils literal notranslate"><span class="pre">--MeshSimplification.max_error</span></code>，用于设置最大二次误差阈值（0 = 禁用），以及
+<code class="docutils literal notranslate"><span class="pre">--MeshSimplification.boundary_weight</span></code>，用于控制边界边的保留程度（默认 1000）。
+支持通过 <code class="docutils literal notranslate"><span class="pre">--MeshSimplification.num_threads</span></code> 进行多线程初始化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mesh_texturer</span></code>：使用已标定的多视图图像，为三角网格生成纹理图集和 UV 坐标。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">image_registrator</span></code>：将数据库中的新图像与已有模型进行配准，例如在运行 <code class="docutils literal notranslate"><span class="pre">mapper</span></code>
+之后，对数据库中新添加的图像提取特征并匹配时使用。注意，此过程不执行光束法平差或三角化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">point_triangulator</span></code>：使用数据库中的特征匹配，对已有模型中已配准图像的所有观测进行
+三角化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">point_filtering</span></code>：通过强制执行某些准则（例如最小轨迹长度、最大重投影误差等）来过滤
+模型中的稀疏点。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bundle_adjuster</span></code>：对重建好的场景运行全局光束法平差，例如当需要优化内参时，或在运行
+<code class="docutils literal notranslate"><span class="pre">image_registrator</span></code> 之后使用。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">database_cleaner</span></code>：清理特定的或全部数据库表。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">database_creator</span></code>：创建一个空的 COLMAP SQLite 数据库，并写入必要的数据库模式信息。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">database_merger</span></code>：将两个数据库合并为一个新的数据库。注意，相机不会被合并，且唯一的
+相机和图像标识符在合并过程中可能发生变化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_analyzer</span></code>：打印关于重建的统计信息。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_clusterer</span></code>：将一个重建拆分为更小的子模型簇。对于管理和处理大规模重建很有用。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_aligner</span></code>：将模型对齐/地理配准到由给定相机中心确定的坐标系。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_orientation_aligner</span></code>：使用曼哈顿世界假设对齐模型的坐标轴。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_comparer</span></code>：比较两个重建的统计信息。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_converter</span></code>：将 COLMAP 导出格式转换为另一种格式，例如 PLY 或 NVM。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_cropper</span></code>：将模型裁剪到以 GPS 或模型坐标系描述的特定包围盒。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_merger</span></code>：如果两个互不连通的重建具有共同的已配准图像，则尝试将它们合并。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_splitter</span></code>：根据文件（包含包围盒坐标、子模型最大范围，或每个维度上的细分数量）
+将模型划分为矩形子模型。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_transformer</span></code>：变换模型的坐标系。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">color_extractor</span></code>：为模型的所有三维点提取平均颜色。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rig_configurator</span></code>：在特征提取之后配置相机装置（rig）和帧。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vocab_tree_builder</span></code>：根据一个已提取图像的数据库创建词汇树。这是一个离线过程，只需运行
+一次，同一棵词汇树即可重用于其他数据集。注意，作为经验法则，你使用的特征数量应至少是视觉
+单词数量的 10-100 倍。
+预训练的树可从 <a class="reference external" href="https://demuc.de/colmap/">https://demuc.de/colmap/</a> 下载。
+如果你想构建一棵在精度/召回率与速度之间具有不同权衡的自定义树，这会很有用。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vocab_tree_retriever</span></code>：执行基于词汇树的图像检索。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rotation_averager</span></code>：在视图图上运行独立的旋转平均。从两两相对旋转估计全局相机旋转。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">view_graph_calibrator</span></code>：使用视图图标定相机内参。从两两几何关系估计焦距和其他内参。
+如果没有已知的良好相机内参先验，应在 <code class="docutils literal notranslate"><span class="pre">global_mapper</span></code> 之前运行此命令，因为全局建图器
+依赖于足够好的焦距先验才能表现良好。</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2>可视化<a class="headerlink" href="#id5" title="链接到此标题。"></a></h2>
+<p>如果你想快速可视化稀疏或稠密重建流程的输出，COLMAP 为你提供了以下几种可能：</p>
+<ul class="simple">
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">mapper</span></code> 获得的稀疏点云可以在 COLMAP GUI 中通过导入模型文件来可视化：选择
+<code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Import</span> <span class="pre">Model</span></code>，然后选择包含稀疏模型文件（<code class="docutils literal notranslate"><span class="pre">cameras.txt</span></code>、
+<code class="docutils literal notranslate"><span class="pre">images.txt</span></code>、<code class="docutils literal notranslate"><span class="pre">points3D.txt</span></code> 等）的文件夹。</p></li>
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">stereo_fusion</span></code> 获得的稠密点云可以在 COLMAP GUI 中通过导入 <code class="docutils literal notranslate"><span class="pre">fused.ply</span></code>
+来可视化：选择 <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Import</span> <span class="pre">Model</span> <span class="pre">from...</span></code>，然后选择文件 <code class="docutils literal notranslate"><span class="pre">fused.ply</span></code>。</p></li>
+<li><p>通过 <code class="docutils literal notranslate"><span class="pre">poisson_mesher</span></code> 或 <code class="docutils literal notranslate"><span class="pre">delaunay_mesher</span></code> 获得的稠密网格模型 <code class="docutils literal notranslate"><span class="pre">meshed-*.ply</span></code>
+目前无法用 COLMAP 可视化，你可以改用外部查看器，例如 Meshlab。使用 <code class="docutils literal notranslate"><span class="pre">mesh_simplifier</span></code>
+命令可以缩小网格规模，以加快可视化或下游处理。使用 <code class="docutils literal notranslate"><span class="pre">mesh_texturer</span></code> 命令可以生成带有
+纹理图集的带纹理网格，该网格可以在 Meshlab 或其他三维查看器中可视化。</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="gui.html" class="btn btn-neutral float-left" title="图形用户界面" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="pycolmap/index.html" class="btn btn-neutral float-right" title="PyCOLMAP" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Johannes L. Schoenberger。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

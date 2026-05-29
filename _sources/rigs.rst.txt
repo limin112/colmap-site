@@ -1,0 +1,191 @@
+.. _rig-support:
+
+相机装置（rig）支持
+===================
+
+COLMAP 原生支持在重建过程中对传感器相机装置（rig）进行建模。相机装置中的传感器被假定彼此之间具有固定的相对位姿，其中一个参考传感器定义了相机装置的原点。帧（frame）定义了相机装置的一个具体实例，其中所有或部分传感器在同一时刻进行曝光采集。例如，在一个立体相机装置中，一个相机会被定义为参考传感器并具有恒等的 ``sensor_from_rig`` 位姿，而第二个相机则相对于参考相机进行定位。每一帧通常由两幅图像组成，作为两个相机在同一时刻的测量数据。
+
+工作流程
+--------
+
+默认情况下，在运行标准重建流程时，每个相机都被建模为一个独立的相机装置，因此每一帧仅包含单幅图像。要对相机装置进行建模，推荐的工作流程是按照如下文件夹结构按相机装置和相机来组织图像（请确保对应同一帧的图像在所有文件夹中具有相同的文件名）::
+
+    rig1/
+        camera1/
+            image0001.jpg
+            image0002.jpg
+            ...
+        camera2/
+            image0001.jpg # same frame as camera1/image0001.jpg
+            image0002.jpg # same frame as camera1/image0002.jpg
+            ...
+        ...
+    rig2/
+        camera1/
+            ...
+        ...
+    ...
+
+下一步，我们首先使用以下命令提取特征::
+
+    colmap feature_extractor \
+        --image_path $DATASET_PATH/images \
+        --database_path $DATASET_PATH/database.db \
+        --ImageReader.single_camera_per_folder 1
+
+默认情况下，得到的数据库现在为每个相机包含一个独立的相机装置，并为每幅图像包含一个独立的帧。因此，我们必须按照期望的相机装置配置来调整数据库中的关系。这通过以下命令完成::
+
+    colmap rig_configurator \
+        --database_path $DATASET_PATH/database.db \
+        --rig_config_path $DATASET_PATH/rig_config.json
+
+如果相机装置中传感器的相对位姿是先验已知的，那么 ``rig_config.json`` 可以如下所示::
+
+    [
+      {
+        "cameras": [
+          {
+            "image_prefix": "rig1/camera1/",
+            "ref_sensor": true
+          },
+          {
+            "image_prefix": "rig1/camera2/",
+            "cam_from_rig_rotation": [
+                0.7071067811865475,
+                0.0,
+                0.7071067811865476,
+                0.0
+            ],
+            "cam_from_rig_translation": [
+                0,
+                0,
+                0
+            ]
+          }
+        ]
+      },
+      {
+        "cameras": [
+          {
+            "image_prefix": "rig2/camera1/",
+            "ref_sensor": true
+          },
+          ...
+        ]
+      },
+      ...
+    ]
+
+请注意，这会修改数据库中的相机装置和帧配置，其中包含相机装置的完整规格，我们随后会将其作为输入提供给下游处理步骤。
+
+在已知标定的相机参数的情况下，每个相机还可以选择性地指定 ``camera_model_name`` 和 ``camera_params`` 字段。
+
+要对相机装置和帧进行更细粒度的配置，最方便的选择是使用 pycolmap 手动配置数据库，可以使用 ``apply_rig_config`` 函数，或者为获得最大灵活性而单独将期望的相机装置和帧对象添加到重建中。
+
+接下来，我们运行标准的特征匹配。请注意，务必在顺序特征匹配之前配置好相机装置，因为连续帧中的图像会被自动相互匹配。
+
+最后，我们可以使用标准的 ``mapper`` 命令重建场景，并可选择使用 ``--Mapper.ba_refine_sensor_from_rig 0`` 来保持相机装置中的相对位姿固定。
+
+未知的相机装置传感器位姿
+------------------------
+
+如果相机装置中传感器的相对位姿不是先验已知的，而我们只知道某一组特定的传感器是刚性安装并在同一时刻曝光采集的，那么可以尝试以下两步重建方法。在开始之前，请确保按照上文所述组织图像，并使用 ``--ImageReader.single_camera_per_folder 1`` 选项执行特征提取。
+
+接下来，在不施加相机装置约束的情况下重建场景，将每个相机建模为其自身的相机装置（这是 COLMAP 在没有进一步配置时的默认行为）。请注意，这可以是从全部输入图像的一个子集得到的部分重建。唯一的要求是每个相机必须至少有一幅已配准图像，与参考相机的某幅已配准图像处于同一帧中。如果重建成功，且已配准图像之间的相对位姿看起来大致正确，我们就可以继续进行下一步。
+
+``rig_configurator`` 也可以在没有 ``cam_from_rig_*`` 变换的情况下工作。通过提供一个现有的（部分）场景重建，它可以根据所有已配准图像计算出平均的相机装置传感器相对位姿::
+
+    colmap rig_configurator \
+        --database_path $DATASET_PATH/database.db \
+        --input_path $DATASET_PATH/sparse-model-without-rigs-and-frames \
+        --rig_config_path $DATASET_PATH/rig_config.json \
+        [ --output_path $DATASET_PATH/sparse-model-with-rigs-and-frames ]
+
+所提供的 ``rig_config.json`` 只需省略相应的 ``cam_from_rig_rotation`` 和 ``cam_from_rig_translation`` 字段即可。
+
+现在，我们既可以在（可选的）已配置相机装置和帧的输出重建上运行相机装置光束法平差::
+
+    colmap bundle_adjuster \
+        --input_path $DATASET_PATH/sparse-model-with-rigs-and-frames \
+        --output_path $DATASET_PATH/bundled-sparse-model-with-rigs-and-frames
+
+或者也可以在施加相机装置约束的情况下从头开始重建过程，这可能会带来更精确的重建结果::
+
+    colmap mapper
+        --image_path $DATASET_PATH/images \
+        --database_path $DATASET_PATH/database.db \
+        --output_path $DATASET_PATH/sparse-model-with-rigs-and-frames
+
+
+示例
+----
+
+以下示例展示了如何使用 COLMAP 的相机装置支持对其中一个 ETH3D 相机装置数据集进行端到端重建::
+
+    wget https://www.eth3d.net/data/terrains_rig_undistorted.7z
+    7zz x terrains_rig_undistorted.7z
+
+    colmap feature_extractor \
+        --database_path terrains/database.db \
+        --image_path terrains/images \
+        --ImageReader.single_camera_per_folder 1
+
+ETH3D 数据集很方便地附带了一份真值 COLMAP 重建，我们使用它通过以下命令来配置传感器相机装置位姿以及相机模型::
+
+    colmap rig_configurator \
+        --database_path terrains/database.db \
+        --rig_config_path terrains/rig_config.json \
+        --input_path terrains/rig_calibration_undistorted
+
+其中 ``rig_config.json`` 为::
+
+    [
+        {
+            "cameras": [
+                {
+                    "image_prefix": "images_rig_cam4_undistorted/",
+                    "ref_sensor": true
+                },
+                {
+                    "image_prefix": "images_rig_cam5_undistorted/"
+                },
+                {
+                    "image_prefix": "images_rig_cam6_undistorted/"
+                },
+                {
+                    "image_prefix": "images_rig_cam7_undistorted/"
+                }
+            ]
+        }
+    ]
+
+请注意，我们没有指定传感器位姿，因为我们使用了一个现有的重建（在本例中是真值重建，但它也可以是一个不带相机装置约束的重建，如上一节所述）来自动推断平均的相机装置外参和相机参数。
+
+接下来，由于这些帧是作为视频采集的，我们对它们进行顺序匹配::
+
+    colmap sequential_matcher --database_path terrains/database.db
+
+根据所提供的 sensor_from_rig 位姿的精度，你可以选择性地启用 `--FeatureMatching.rig_verification 1` 选项；或者，如果你知道同一帧内的传感器没有视觉重叠，则可以启用 `--FeatureMatching.skip_image_pairs_in_same_frame 1` 选项。
+
+最后，我们使用 mapper 重建场景，同时保持真值传感器相机装置位姿和相机参数固定::
+
+    mkdir -p terrains/sparse
+    colmap mapper \
+        --database_path terrains/database.db \
+        --Mapper.ba_refine_sensor_from_rig 0 \
+        --Mapper.ba_refine_focal_length 0 \
+        --Mapper.ba_refine_extra_params 0 \
+        --image_path terrains/images \
+        --output_path terrains/sparse
+
+
+从 360° 球面图像进行重建
+------------------------
+
+COLMAP 可以通过渲染虚拟针孔图像（类似于立方体贴图）并将其视为一个相机装置，来处理 360° 全景图集合。由于相机装置外参和相机内参是已知的，重建过程会更加鲁棒。我们提供了一个示例 Python 脚本来重建 360° 图像集合::
+
+    python python/examples/panorama_sfm.py \
+        --input_image_path image_directory \
+        --output_path output_directory
+
+请确保使用与你所使用的 COLMAP 版本相对应的脚本版本，因为 HEAD 处的脚本不保证兼容。

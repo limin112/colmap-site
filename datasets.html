@@ -1,0 +1,150 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>数据集 &mdash; COLMAP 4.1.0.dev0 | 92cc0123 (2026-05-29) 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6631871d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f9d9534"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="图形用户界面" href="gui.html" />
+    <link rel="prev" title="输出格式" href="format.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  <a href="index.html" class="icon icon-home">
+    COLMAP
+  </a>
+    <div class="version">
+      4.1.0.dev0 | 92cc0123 (2026-05-29)
+    </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">特征提取与匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cameras.html">相机模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">输出格式</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">图形用户界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">历史版本文档</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COLMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">数据集</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/datasets.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="datasets">
+<span id="id1"></span><h1>数据集<a class="headerlink" href="#datasets" title="链接到此标题。"></a></h1>
+<p>可在以下地址下载若干不同的数据集：
+<a class="reference external" href="https://demuc.de/colmap/datasets/">https://demuc.de/colmap/datasets/</a></p>
+<ul class="simple">
+<li><p><strong>Gerrard Hall</strong>：UNC Chapel Hill 的 “Gerrard” 大厅的 100 张高分辨率图像，该建筑就在
+“South” 楼旁边。这些图像使用同一台相机、采用广角镜头但以不同的对焦拍摄。</p></li>
+<li><p><strong>Graham Hall</strong>：UNC Chapel Hill 的 “Graham” 纪念堂内部与外部的 1273 张高分辨率图像。
+这些图像使用同一台相机、采用广角镜头但以不同的对焦拍摄。</p></li>
+<li><p><strong>Person Hall</strong>：UNC Chapel Hill 的 “Person” 大厅的 330 张高分辨率图像。这些图像使用
+同一台相机、采用广角镜头拍摄。</p></li>
+<li><p><strong>South Building</strong>：UNC Chapel Hill 的 “South” 楼的 128 张图像。这些图像使用同一台
+相机拍摄，由 Christopher Zach 友情提供。</p></li>
+</ul>
+<p>可在此处查看若干由 COLMAP 生成的示例重建：</p>
+<p><strong>稀疏重建</strong>：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://youtu.be/PmXqdfBQxfQ">https://youtu.be/PmXqdfBQxfQ</a></p></li>
+<li><p><a class="reference external" href="https://youtu.be/DIv1aGKqSIk">https://youtu.be/DIv1aGKqSIk</a></p></li>
+</ul>
+<p><strong>稠密重建</strong>：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://youtu.be/11awtGWSqQU">https://youtu.be/11awtGWSqQU</a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="format.html" class="btn btn-neutral float-left" title="输出格式" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="gui.html" class="btn btn-neutral float-right" title="图形用户界面" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Johannes L. Schoenberger。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

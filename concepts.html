@@ -1,0 +1,166 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>核心概念 &mdash; COLMAP 4.1.0.dev0 | 92cc0123 (2026-05-29) 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6631871d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f9d9534"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="特征提取与匹配" href="features.html" />
+    <link rel="prev" title="教程" href="tutorial.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  <a href="index.html" class="icon icon-home">
+    COLMAP
+  </a>
+    <div class="version">
+      4.1.0.dev0 | 92cc0123 (2026-05-29)
+    </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">核心概念</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sensors">传感器与测量</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rigs">相机装置（Rigs）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#frames">帧（Frames）</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">特征提取与匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cameras.html">相机模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">输出格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">图形用户界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">历史版本文档</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COLMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">核心概念</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/concepts.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="concepts">
+<span id="id1"></span><h1>核心概念<a class="headerlink" href="#concepts" title="链接到此标题。"></a></h1>
+<p>从 COLMAP 3.12 开始，引入了相机装置（rig）与帧（frame）的概念，以便对多传感器
+平台以及 360° 全景图像进行有原则的建模。这些概念提供了一个结构化框架来组织传感器
+及其测量数据，从而实现对各类数据类型更灵活的标定与融合（例如，参见
+<a class="reference internal" href="rigs.html#rig-support"><span class="std std-ref">相机装置（rig）支持</span></a>）。</p>
+<p>这些新增内容向后兼容，不会影响 COLMAP 针对单相机采集设置的传统默认用法。</p>
+<section id="sensors">
+<span id="id2"></span><h2>传感器与测量<a class="headerlink" href="#sensors" title="链接到此标题。"></a></h2>
+<p><strong>传感器</strong>（sensor）是一种用于采集环境数据的设备，在特定时间戳产生测量数据。最常见的
+传感器类型是相机，它以图像作为其测量数据。其他示例包括 IMU（惯性测量单元），用于记录
+加速度和角速度，以及 GNSS 接收机，用于提供绝对位置数据。</p>
+<p>目前，COLMAP 仅支持相机及其图像测量数据，但传感器这一概念的设计可扩展到 IMU 和 GNSS
+等其他类型，以便未来支持多模态数据融合。</p>
+</section>
+<section id="rigs">
+<span id="id3"></span><h2>相机装置（Rigs）<a class="headerlink" href="#rigs" title="链接到此标题。"></a></h2>
+<p><strong>相机装置</strong>（rig）对由多个具有固定相对位姿的传感器组成的平台进行建模，从而实现同步且
+一致的多传感器数据采集。示例包括立体相机设置、头戴式 AR/VR 设备以及自动驾驶传感器套件。
+它也可以是虚拟的——例如，对多个虚拟相机进行建模，将其布置为采集相互重叠的视图，用于
+创建无缝的 360° 全景图像。</p>
+<p>在 COLMAP 中，每个传感器都必须唯一地关联到且仅关联到一个相机装置（rig）。每个相机装置
+都有一个定义其原点的参考传感器。例如，在立体相机装置中，一个相机被指定为参考传感器，
+其 <code class="docutils literal notranslate"><span class="pre">sensor_from_rig</span></code> 位姿为单位变换，而第二个相机的位姿则相对于该参考传感器定义。
+在单相机设置中，相机本身即作为其相机装置的唯一参考传感器。</p>
+</section>
+<section id="frames">
+<span id="id4"></span><h2>帧（Frames）<a class="headerlink" href="#frames" title="链接到此标题。"></a></h2>
+<p><strong>帧</strong>（frame）表示在单个时间戳采集到的一个相机装置（rig），包含该相机装置内一个或多个
+传感器的测量数据。例如，如果某个相机装置由三个传感器组成，那么一帧可能包含全部三个
+传感器的测量数据，也可能仅包含其中一部分，具体取决于数据的可用性。这一概念允许将多传感器
+数据关联到特定时间点。</p>
+<p>例如，在录制视频的立体相机装置中，每一帧对应一组两幅图像——分别来自每个相机——在同一
+时刻采集得到。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="tutorial.html" class="btn btn-neutral float-left" title="教程" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="features.html" class="btn btn-neutral float-right" title="特征提取与匹配" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Johannes L. Schoenberger。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,634 @@
+常见问题
+========
+
+针对不同重建场景与输出质量调整选项
+----------------------------------
+
+COLMAP 提供了许多可针对不同重建场景进行调整的选项，可在精度、完整性与效率之间进行权衡。
+默认选项是为对非结构化输入数据进行中到高质量重建而设置的。针对不同场景和质量等级，提供了若干预设，
+可在 GUI 中通过 ``Extras > Set options for ...`` 进行设置。要从命令行使用这些预设，可在选择预设后，
+通过 ``File > Save project`` 保存当前的选项集合。生成的项目文件可用文本编辑器打开，以查看各项不同的选项。
+此外，你也可以通过运行 ``colmap project_generator`` 从命令行生成该项目文件。
+
+
+扩展 COLMAP
+-----------
+
+如果你只是想分析 COLMAP 生成的稀疏或稠密重建结果，可以在 Python 中使用 pycolmap 加载稀疏模型，
+或在 Matlab 中使用 ``scripts/matlab`` 中的脚本。
+
+如果你想编写一个基于 COLMAP 构建的 C/C++ 可执行文件，有两种可行的方式。第一，COLMAP 的头文件和库
+默认安装到 ``CMAKE_INSTALL_PREFIX``。将 COLMAP 作为库进行编译链接的方法在 :ref:`此处 <installation-library>`
+有所描述。或者，你也可以从 ``src/colmap/tools/example.cc`` 代码模板开始，直接在 COLMAP 内部以一个新的
+二进制文件的形式实现所需的功能。
+
+
+在 SIFT 与 ALIKED 特征之间进行选择
+----------------------------------
+
+COLMAP 支持两种特征提取算法：SIFT（默认）和 ALIKED（需要 ONNX 支持）。以下是在二者之间进行选择的一些指导：
+
+- **SIFT** 是经过最广泛测试且最稳健的选择。它在视角重叠中等到较高、场景纹理充足，
+  且在相似光照条件下拍摄的场景中表现良好。它同时支持 GPU 和 CPU 提取。
+
+- **ALIKED** 是一种基于学习的特征提取器，在某些情况下可以产生可重复性更高的特征，
+  尤其适用于视角重叠有限、场景纹理稀少以及光照剧烈变化的场景。它在构建时需要 ONNX
+  Runtime（``-DONNX_ENABLED=ON``）。
+
+这两种特征类型都支持暴力匹配以及基于 LightGlue 神经网络的匹配。LightGlue 通常能产生更高的内点比例，
+尤其是对于视角或光照变化较大的图像对，但需要 ONNX 支持。有关可用选项的详细信息，请参阅
+:ref:`特征提取与匹配 <features>`。
+
+不要在同一个数据库中混用不同的特征类型（例如 SIFT 和 ALIKED），因为它们的描述子互不兼容。
+
+
+.. _faq-choosing-camera-model:
+
+选择合适的相机模型
+------------------
+
+COLMAP 支持许多参数数量各异的相机模型（完整列表参见 :doc:`cameras`）。选择合适的模型取决于
+你的镜头类型和重建需求：
+
+- **SIMPLE_RADIAL**\ （默认）：对大多数标准相机而言是一个良好的起点。它对单个焦距、主点
+  和一个径向畸变参数进行建模。
+
+- **PINHOLE**：在图像镜头畸变可忽略时使用（例如已去畸变的图像或高质量工业镜头）。
+
+- **OPENCV**：对于畸变中等的广角镜头是一个不错的选择。它对 2 个焦距、主点和 4 个畸变参数
+  （2 个径向 + 2 个切向）进行建模。
+
+- **SIMPLE_RADIAL_FISHEYE** 或 **OPENCV_FISHEYE**：用于视场显著大于 120 度的鱼眼镜头。
+
+- **FULL_OPENCV**：仅在你有许多共享内参的图像并且需要对复杂畸变模式进行建模时使用。
+  该模型有 12 个参数，需要大量观测才能可靠收敛。
+
+作为经验法则，应使用能够充分描述你镜头的最简单模型。参数过多的过于复杂的模型可能导致退化或过拟合的
+标定，尤其是在很少图像共享内参的情况下。如果拿不准，请从 ``SIMPLE_RADIAL`` 开始，并在模型
+统计信息中检查重投影误差。
+
+
+在增量式、全局式和分层式 SfM 之间进行选择
+-----------------------------------------
+
+COLMAP 提供了三种 SfM 流程：
+
+- **增量式建图器**\ （``mapper``，默认）：通过每次增量地添加一张图像来重建场景。这是最稳健且经过
+  充分测试的流程，但对于大型图像集合可能会变慢。
+
+- **全局式建图器**\ （``global_mapper``）：使用旋转平均和全局定位同时求解所有相机位姿。对于具有良好
+  匹配图的大型数据集，这种方式可能更快，但对匹配中的外点可能不够稳健。全局式建图器依赖于良好的焦距
+  先验。如果没有可靠的内参，请在运行 ``global_mapper`` 之前运行 ``view_graph_calibrator``，以从
+  视图图中估计内参（可选，但建议这样做以提升全局式 SfM 的质量）。请注意，``view_graph_calibrator``
+  会就地修改数据库，因此建议在副本上操作。
+
+- **分层式建图器**\ （``hierarchical_mapper``）：将场景划分为相互重叠的子模型，独立重建每个子模型，
+  然后将它们合并。这对于增量式方法过慢的超大规模数据集很有用，但通常不如另外两种流程稳健。
+
+这三种方式也都可以通过 ``automatic_reconstructor`` 使用 ``--mapper INCREMENTAL``、
+``--mapper GLOBAL`` 或 ``--mapper HIERARCHICAL`` 来选择。
+
+
+使用位姿先验（GPS）进行重建
+---------------------------
+
+如果你的图像在其 EXIF 元数据中包含 GPS 信息，COLMAP 会在特征提取过程中自动提取并将其作为位姿先验
+存储在数据库中。随后可以在重建过程中使用 ``pose_prior_mapper`` 来使用这些先验::
+
+    colmap feature_extractor \
+        --database_path $PROJECT_PATH/database.db \
+        --image_path $PROJECT_PATH/images
+
+    colmap exhaustive_matcher \
+        --database_path $PROJECT_PATH/database.db
+
+    colmap pose_prior_mapper \
+        --database_path $PROJECT_PATH/database.db \
+        --image_path $PROJECT_PATH/images \
+        --output_path $PROJECT_PATH/sparse
+
+``pose_prior_mapper`` 本质上就是启用了先验位置约束的增量式建图器。你可以使用
+``--prior_position_std_x``、``--prior_position_std_y`` 和 ``--prior_position_std_z``
+（默认：各为 1.0 米）来控制先验协方差（不确定性），或使用 ``--overwrite_priors_covariance``
+覆盖所有先验的协方差。
+
+对于已经重建好的模型的地理配准（即在建图过程中不使用先验），请参阅 `地理配准`_ 一节。
+
+
+.. _faq-share-intrinsics:
+
+共享内参
+--------
+
+COLMAP 支持任意图像组和相机模型共享内参。如果图像引用同一个相机（由数据库中的 ``camera_id`` 属性
+指定），则它们共享相同的内参。你可以在数据库管理工具中添加新相机并设置共享内参。更多信息请参阅
+:ref:`数据库管理 <database-management>`。
+
+
+.. _faq-fix-intrinsics:
+
+固定内参
+--------
+
+默认情况下，COLMAP 会在重建过程中尝试自动优化相机内参（主点除外）。通常，如果数据集中有足够多的图像，
+并且你在多张图像间共享内参，那么 SfM 估计出的相机内参应当优于使用标定板手动获得的参数。
+
+然而，有时 COLMAP 的自标定流程可能会收敛到退化的参数上，尤其是对于具有许多畸变参数的更复杂的相机模型。
+如果你预先知道标定参数，可以在重建过程中固定不同的参数组。选择
+``Reconstruction > Reconstruction options > Bundle Adj. > refine_*``，并勾选要优化或保持不变的
+参数组。即使你在重建过程中将参数保持不变，也可以在最终的全局光束法平差中优化这些参数，方法是设置
+``Reconstruction > Bundle adj. options > refine_*``，然后运行 ``Reconstruction > Bundle adjustment``。
+
+
+主点优化
+--------
+
+默认情况下，COLMAP 在重建过程中保持主点不变，因为主点估计通常是一个病态问题。一旦所有图像都被重建，
+该问题通常会有足够的约束，使你可以尝试在全局光束法平差中优化主点，尤其是在多张图像间共享内参时。
+更多信息请参阅 :ref:`固定内参 <faq-fix-intrinsics>`。
+
+
+增加匹配数 / 稀疏 3D 点数
+-------------------------
+
+要增加匹配数量，你应当使用更具区分度的 DSP-SIFT 特征，而不是普通的 SIFT，并使用以下选项估计仿射
+特征形状：``--SiftExtraction.estimate_affine_shape=true`` 和
+``--SiftExtraction.domain_size_pooling=true``。此外，你还应使用
+``--FeatureMatching.guided_matching=true`` 启用引导式特征匹配。
+
+默认情况下，COLMAP 在三角化中忽略双视图特征轨迹，导致 3D 点数比可能的要少。在极少数情况下，对双视图
+轨迹进行三角化可以通过在光束法平差中提供额外约束，来提升稀疏图像集合的稳定性。要同时对双视图轨迹进行
+三角化，请取消勾选选项 ``Reconstruction > Reconstruction options > Triangulation >
+ignore_two_view_tracks``。如果你的图像是相对于场景从很远的距离拍摄的，可以尝试减小最小三角化角度。
+
+
+从已知相机位姿重建稀疏/稠密模型
+-------------------------------
+
+如果相机位姿已知，并且你想重建场景的稀疏或稠密模型，必须先手动构建一个稀疏模型，方法是在一个新文件夹下
+创建 ``cameras.txt``、``points3D.txt`` 和 ``images.txt``::
+
+    +── path/to/manually/created/sparse/model
+    │   +── cameras.txt
+    │   +── images.txt
+    │   +── points3D.txt
+
+``points3D.txt`` 文件应当为空，而 ``images.txt`` 中每隔一行也应当为空，因为稀疏特征是按下文所述计算的。
+有关稀疏模型结构的更多信息，可以参阅 :ref:`这篇文章 <output-format>`。
+
+images.txt 示例::
+
+    1 0.695104 0.718385 -0.024566 0.012285 -0.046895 0.005253 -0.199664 1 image0001.png
+    # Make sure every other line is left empty
+    2 0.696445 0.717090 -0.023185 0.014441 -0.041213 0.001928 -0.134851 2 image0002.png
+
+    3 0.697457 0.715925 -0.025383 0.018967 -0.054056 0.008579 -0.378221 1 image0003.png
+
+    4 0.698777 0.714625 -0.023996 0.021129 -0.048184 0.004529 -0.313427 2 image0004.png
+
+上面每张图像必须与数据库中（下一步）具有相同的 ``image_id``\ （第一列）。这个数据库既可以在 GUI 中
+（``Database management > Processing`` 下）查看，也可以先用 colmap 创建一个重建，随后将其导出为文本，
+以查看它所创建的 images.txt 文件。
+
+要重建稀疏地图，你首先必须按如下方式从已知相机位姿的图像中重新计算特征::
+
+    colmap feature_extractor \
+        --database_path $PROJECT_PATH/database.db \
+        --image_path $PROJECT_PATH/images
+
+如果你已知的相机内参具有较大的畸变系数，那么现在应当手动将参数从你的 ``cameras.txt`` 复制到数据库中，
+以便匹配器能够利用这些内参。修改数据库有多种方式，但一个简便的选择是使用 pycolmap 的数据库 API。
+否则，你可以跳过这一步，直接按如下方式继续::
+
+    colmap exhaustive_matcher \ # or alternatively any other matcher
+        --database_path $PROJECT_PATH/database.db
+
+    colmap point_triangulator \
+        --database_path $PROJECT_PATH/database.db \
+        --image_path $PROJECT_PATH/images
+        --input_path path/to/manually/created/sparse/model \
+        --output_path path/to/triangulated/sparse/model
+
+请注意，如果要从已知相机位姿计算稠密模型，则稀疏重建步骤并非必需。假设你已从已知相机位姿计算出了
+稀疏模型，则可以按如下方式计算稠密模型::
+
+    colmap image_undistorter \
+        --image_path $PROJECT_PATH/images \
+        --input_path path/to/triangulated/sparse/model \
+        --output_path path/to/dense/workspace
+
+    colmap patch_match_stereo \
+        --workspace_path path/to/dense/workspace
+
+    colmap stereo_fusion \
+        --workspace_path path/to/dense/workspace \
+        --output_path path/to/dense/workspace/fused.ply
+
+或者，你也可以在没有稀疏模型的情况下生成稠密模型::
+
+    colmap image_undistorter \
+        --image_path $PROJECT_PATH/images \
+        --input_path path/to/manually/created/sparse/model \
+        --output_path path/to/dense/workspace
+
+由于在稠密立体阶段会使用稀疏点云来自动选择相邻图像，因此你必须按 :ref:`此处 <faq-dense-manual-source>`
+所述手动指定源图像。此时稠密立体阶段还需要手动指定深度范围。
+
+最后，在这种情况下，如果 min_num_pixels 保持默认值（大于 1），融合将无法成功匹配点。因此还需如下设置
+该参数::
+
+    colmap patch_match_stereo \
+        --workspace_path path/to/dense/workspace \
+        --PatchMatchStereo.depth_min $MIN_DEPTH \
+        --PatchMatchStereo.depth_max $MAX_DEPTH
+
+    colmap stereo_fusion \
+        --workspace_path path/to/dense/workspace \
+        --StereoFusion.min_num_pixels 1 \
+        --output_path path/to/dense/workspace/fused.ply
+
+
+.. _faq-merge-models:
+
+合并互不相连的模型
+------------------
+
+有时 COLMAP 无法将所有图像重建到同一个模型中，因而会产生多个子模型。如果这些子模型有共同的已配准图像，
+则可以作为后处理步骤将它们合并为单个模型::
+
+    colmap model_merger \
+        --input_path1 /path/to/sub-model1 \
+        --input_path2 /path/to/sub-model2 \
+        --output_path /path/to/merged-model
+
+为了提升两个子模型之间的对齐质量，建议在合并后再运行一次全局光束法平差::
+
+    colmap bundle_adjuster \
+        --input_path /path/to/merged-model \
+        --output_path /path/to/refined-merged-model
+
+
+地理配准
+--------
+
+通过提供部分或全部已配准图像的相机中心的 3D 位置，可以对模型进行地理配准。重建模型与地理配准目标坐标系
+之间的 3D 相似变换由这些对应关系确定。
+
+地理配准的 3D 坐标既可以从数据库（tvec_prior 字段）中提取，也可以从用户指定的文本文件中提取。
+对于文本文件，图像相机中心的地理配准 3D 坐标必须按以下格式指定::
+
+    image_name1.jpg X1 Y1 Z1
+    image_name2.jpg X2 Y2 Z2
+    image_name3.jpg X3 Y3 Z3
+    ...
+
+坐标可以是基于 GPS 的（纬度/经度/海拔）或基于笛卡尔的（x/y/z）。在使用 GPS 坐标的情况下，
+会执行转换将其转为笛卡尔坐标。转换可以从 GPS 转为 ECEF（地心地固，Earth-Centered-Earth-Fixed）坐标，
+或转为 ENU（东-北-天，East-North-Up）坐标。如果使用 ENU 坐标，第一张图像的 GPS 坐标将定义 ENU 坐标系
+的原点。也可以使用 ECEF 坐标进行对齐，然后将对齐后的重建旋转到 ENU 平面中。
+
+请注意，至少需要指定 3 张图像才能估计 3D 相似变换。然后，可以使用以下命令对模型进行地理配准::
+
+    colmap model_aligner \
+        --input_path /path/to/model \
+        --output_path /path/to/geo-registered-model \
+        --ref_images_path /path/to/text-file (or --database_path /path/to/database.db) \
+        --ref_is_gps 1 \
+        --alignment_type ecef \
+        --alignment_max_error 3.0 (where 3.0 is the error threshold to be used in RANSAC)
+
+将使用 RANSAC 估计器来估计 3D 相似变换，以对数据中潜在的外点保持稳健。需要提供在 RANSAC 估计器中
+使用的误差阈值。
+
+曼哈顿世界对齐
+--------------
+
+COLMAP 具有使用曼哈顿世界假设来对齐重建坐标轴的功能，即 COLMAP 可以通过对图像中的消失点进行检测，
+自动确定曼哈顿世界的重力轴和主要水平轴。更多细节请参阅 ``model_orientation_aligner``。
+
+
+对图像区域进行掩膜
+------------------
+
+COLMAP 支持在特征提取过程中以两种不同的方式对关键点进行掩膜：
+
+1. 将 ``mask_path`` 传入一个包含图像掩膜的文件夹。对于给定的图像，对应的掩膜在该根目录下的子路径，
+必须与该图像在 ``image_path`` 下的子路径相同。文件名必须相同，只是额外添加了扩展名 ``.png``。
+例如，对于图像 ``image_path/abc/012.jpg``，掩膜应为 ``mask_path/abc/012.jpg.png``。
+
+2. 将 ``camera_mask_path`` 传入单个掩膜图像。这个单一掩膜会应用于所有图像。
+
+在这两种情况下，在掩膜图像为黑色的区域（灰度像素强度值为 0）都不会提取特征。
+
+
+图像方向与 EXIF
+---------------
+
+COLMAP 在特征提取过程中会自动读取图像的 EXIF 方向标签。该方向会被转换为传感器坐标系中的重力方向向量，
+并作为位姿先验的一部分存储在数据库中。该重力信息在特征提取和匹配过程中用于提升对图像旋转的稳健性。
+这对于方向不变性有限的特征提取器/匹配器（例如 ALIKED 和 LightGlue）至关重要。
+
+
+
+将新图像配准/定位到已有重建中
+-----------------------------
+
+如果你已有图像的重建，并想在该重建中配准/定位新图像，可以按以下步骤操作::
+
+    colmap feature_extractor \
+        --database_path $PROJECT_PATH/database.db \
+        --image_path $PROJECT_PATH/images \
+        --image_list_path /path/to/image-list.txt
+
+    colmap vocab_tree_matcher \
+        --database_path $PROJECT_PATH/database.db \
+        --VocabTreeMatching.match_list_path /path/to/image-list.txt
+
+    colmap image_registrator \
+        --database_path $PROJECT_PATH/database.db \
+        --input_path /path/to/existing-model \
+        --output_path /path/to/model-with-new-images
+
+    colmap bundle_adjuster \
+        --input_path /path/to/model-with-new-images \
+        --output_path /path/to/model-with-new-images
+
+请注意，这首先会为新图像提取特征，然后将它们与数据库中已有的图像进行匹配，最后将它们配准到模型中。
+该图像列表文本文件包含一个待提取和匹配的图像列表，每行指定一个图像文件名。光束法平差是可选的。
+
+如果你需要带三角化的更精确的图像配准，那么应当重新启动或继续重建过程，而不仅仅是将图像配准到模型中。
+你不应运行 ``image_registrator``，而应运行 ``mapper`` 以从已有模型继续重建过程::
+
+    colmap mapper \
+        --database_path $PROJECT_PATH/database.db \
+        --image_path $PROJECT_PATH/images \
+        --input_path /path/to/existing-model \
+        --output_path /path/to/model-with-new-images
+
+或者，你也可以从头开始重建::
+
+    colmap mapper \
+        --database_path $PROJECT_PATH/database.db \
+        --image_path $PROJECT_PATH/images \
+        --output_path /path/to/model-with-new-images
+
+请注意，在运行 ``mapper`` 或 ``bundle_adjuster`` 之后，稠密重建必须从头重新运行，因为模型的坐标系
+在这些步骤中可能发生变化。
+
+
+无 GPU/CUDA 时可用的功能
+------------------------
+
+如果你没有支持 CUDA 的 GPU，但有其他某种 GPU，则除稠密重建部分外，你可以使用 COLMAP 的所有功能。
+不过，你可以使用外部稠密重建软件作为替代方案，如 :ref:`教程 <dense-reconstruction>` 所述。如果你的 GPU
+计算能力较低，或者你想在没有连接显示器且不支持 CUDA 的机器上运行 COLMAP，可以通过指定相应的选项
+（例如，特征提取步骤的 ``--FeatureExtraction.use_gpu=false``）在 CPU 上运行所有步骤。但请注意，这可能
+导致重建流程显著变慢。另请注意，在默认设置下，在 CPU 上对大图像进行特征提取可能会消耗过多的内存，
+这可能需要使用 ``--FeatureExtraction.max_image_size`` 手动减小最大图像尺寸，和/或设置
+``--SiftExtraction.first_octave 0``，或者使用 ``--FeatureExtraction.num_threads`` 手动限制线程数。
+
+
+特征提取/匹配中的多 GPU 支持
+----------------------------
+
+你可以通过为支持 CUDA 的 GPU 指定多个索引来在多个 GPU 上运行特征提取/匹配，例如，
+``--FeatureExtraction.gpu_index=0,1,2,3`` 和 ``--FeatureMatching.gpu_index=0,1,2,3``
+会在 4 个 GPU 上并行运行特征提取/匹配。请注意，每个 GPU 只能运行一个线程，这通常也能带来最佳性能。
+默认情况下，COLMAP 为每个支持 CUDA 的 GPU 运行一个特征提取/匹配线程，相比在同一个 GPU 上运行多个线程，
+这通常能带来最佳性能。
+
+
+特征匹配因非法内存访问而失败
+----------------------------
+
+如果你遇到以下错误消息::
+
+    MultiplyDescriptor: an illegal memory access was encountered
+
+或以下消息：
+
+    ERROR: Feature matching failed. This probably caused by insufficient GPU
+    memory. Consider reducing the maximum number of features.
+
+那么说明在特征匹配过程中你的 GPU 内存耗尽了。请尝试减小选项 ``--FeatureMatching.max_num_matches``
+的值，直到该错误消失。请注意，这可能导致较差的特征匹配结果，因为较低尺度的输入特征会被裁剪以装入 GPU
+内存。或者，你也可以改用基于 CPU 的特征匹配，但这可能会变得非常慢，更好的办法是购买内存更大的 GPU。
+
+所需的最大 GPU 内存可以用以下公式近似估算：对于 SIFT，为
+``4 * num_matches * num_matches + 4 * num_matches * 256``。例如，如果你设置
+``--FeatureMatching.max_num_matches 10000``，所需的最大 GPU 内存约为 400MB，并且只有在你的某张
+图像确实具有那么多特征时才会被分配。
+
+
+加速光束法平差
+--------------
+
+下面介绍减少光束法平差运行时间的实用方法。
+
+- **减小问题规模**
+
+  限制对应关系的数量，使 BA 求解一个更小的问题：
+
+  - 通过减小 ``--SiftExtraction.max_image_size`` 和/或 ``--SiftExtraction.max_num_features``
+    来减少特征数。
+  - 通过减小 ``--SequentialMatching.overlap``、``--SpatialMatching.max_num_neighbors`` 或
+    ``--VocabTreeMatching.num_images`` 来减少匹配对（并尽可能避免使用 ``exhaustive_matcher``）。
+  - 通过减小 ``--FeatureMatching.max_num_matches`` 来减少匹配数。
+  - 使用 ``--Mapper.ba_global_ignore_redundant_points3D 1`` 启用实验性的地标剪枝，以剔除冗余的
+    3D 点。
+
+- **利用 GPU 加速**
+
+  为光束法平差启用基于 GPU 的 Ceres 求解器，方法是为 ``mapper`` 设置 ``--Mapper.ba_use_gpu 1``，
+  为独立的 ``bundle_adjuster`` 设置 ``--BundleAdjustmentCeres.use_gpu 1``。有几个参数控制何时以及
+  使用哪个 GPU 求解器：
+
+  - 仅当图像数量超过 ``--BundleAdjustmentCeres.min_num_images_gpu_solver`` 时，GPU 求解器才会被
+    激活。
+  - 使用 ``--BundleAdjustmentCeres.max_num_images_direct_dense_gpu_solver`` 和
+    ``--BundleAdjustmentCeres.max_num_images_direct_sparse_gpu_solver`` 在直接稠密、直接稀疏和
+    迭代稀疏 GPU 求解器之间进行选择。
+
+  .. Attention:: 在 Ceres 2.3 正式发布之前，COLMAP 官方的支持 CUDA 的二进制文件不附带
+     ceres[cuda]。要使用 GPU 求解器，你必须在编译 Ceres 时启用 CUDA/cuDSS 支持，并将该构建链接到
+     COLMAP。
+
+  **注意：** 当 Schur 补矩阵变得不那么稀疏时（即出现更多填充），基于 Schur 的稀疏求解器（cuDSS）
+  可能会出现 GPU 利用率低的情况。常见原因包括：
+
+  - 图像共视性高
+  - 共享相机内参。
+
+- **其他实用提示**
+
+  - 通过调整观测过滤参数来改善初始条件，使 BA 接收到更多内点和更少外点，或通过提供准确的先验
+    （例如内参、位姿）来改善初始条件。
+  - 在可能的情况下固定或限制参数的优化（例如，若内参已知则保持其固定），以减少待优化变量的数量。
+  - 减少 LM 迭代次数或放宽收敛容差，以用少量精度换取运行时间：``--Mapper.ba_global_max_num_iterations``、
+    ``--Mapper.ba_global_function_tolerance``。
+  - 使用建图器选项降低代价高昂的全局 BA 过程的频率：``--Mapper.ba_global_frames_freq``、
+    ``--Mapper.ba_global_points_freq``、``--Mapper.ba_global_frames_ratio`` 和
+    ``--Mapper.ba_global_points_ratio``。
+
+
+在稠密重建中权衡完整性与精度
+----------------------------
+
+如果稠密点云包含过多外点和过多噪声，请尝试增大选项 ``--StereoFusion.min_num_pixels`` 的值。
+
+如果使用泊松重建得到的稠密表面网格模型没有表面，或者外点表面过多，你应当减小选项
+``--PoissonMeshing.trim`` 的值以减小表面积，反之则增大它。也可以考虑尝试如上文所述在融合阶段减少外点
+或提升完整性。
+
+如果使用 Delaunay 重建得到的稠密表面网格模型表面过于嘈杂或不完整，你应当增大
+``--DelaunayMeshing.quality_regularization`` 参数以获得更平滑的表面。如果网格的分辨率过于粗糙，
+你应当将 ``--DelaunayMeshing.max_proj_dist`` 选项减小到一个更低的值。
+
+
+改善弱纹理表面的稠密重建结果
+----------------------------
+
+对于具有弱纹理表面的场景，使用高分辨率的输入图像（``--PatchMatchStereo.max_image_size``）和较大的
+图块窗口半径（``--PatchMatchStereo.window_radius``）会有所帮助。你可能还想减小光度一致性代价的过滤
+阈值（``--PatchMatchStereo.filter_min_ncc``）。
+
+
+表面网格重建
+------------
+
+COLMAP 支持两类表面重建算法。泊松表面重建 [kazhdan2013]_ 以及基于图割的从 Delaunay 三角化中
+提取表面的方法。泊松表面重建通常需要几乎无外点的输入点云，并且在输入数据中存在外点或大孔洞时，
+它常常会产生糟糕的表面。基于 Delaunay 三角化的网格化算法对外点更稳健，并且总体上比泊松算法更能
+扩展到大型数据集，但它通常产生较不平滑的表面。此外，基于 Delaunay 的网格化可以应用于稀疏和稠密
+重建结果。要作为后处理步骤提升表面的平滑度，你可以使用拉普拉斯平滑，例如在 Meshlab 中实现的那样。
+
+请注意，这两种算法也可以结合使用：先运行 Delaunay 网格化以稳健地从稀疏或稠密点云中过滤外点，然后在
+第二步中执行泊松表面重建以获得平滑的表面。
+
+网格化之后，可以使用 ``mesh_texturer`` 命令生成带有纹理图集的纹理网格 [waechter2014]_。它根据投影
+面积和观察角度，将每个网格面分配给最佳视角的相机图像，并将纹理烘焙到一个带有逐面 UV 坐标的图集中。
+该命令需要 ``image_undistorter`` 生成的去畸变工作空间作为输入。
+
+
+加速稠密重建
+------------
+
+稠密重建可以通过多种方式加速：
+
+- 在你的系统中安装更多 GPU，因为稠密重建在立体重建步骤中可以利用多个 GPU。在你的系统中安装更多内存，
+  并将 ``--PatchMatchStereo.cache_size``、``--StereoFusion.cache_size`` 增大到尽可能大的值，
+  以加速稠密融合步骤。
+
+- 不执行几何稠密立体重建 ``--PatchMatchStereo.geom_consistency false``。请确保在这种情况下也启用
+  ``--PatchMatchStereo.filter true``。
+
+- 减小 ``--PatchMatchStereo.max_image_size``、``--StereoFusion.max_image_size`` 的值，以在某个
+  最大图像分辨率下执行稠密重建。
+
+- 减少每张参考图像所考虑的源图像数量，如 :ref:`此处 <faq-dense-memory>` 所述。
+
+- 将图块窗口步长 ``--PatchMatchStereo.window_step`` 增大到 2。
+
+- 减小图块窗口半径 ``--PatchMatchStereo.window_radius``。
+
+- 减少图块匹配迭代次数 ``--PatchMatchStereo.num_iterations``。
+
+- 减少采样视图数量 ``--PatchMatchStereo.num_samples``。
+
+- 为加速超大型重建的稠密立体和融合步骤，你可以使用 CMVS 将场景划分为多个簇并剪除冗余图像，
+  如 :ref:`此处 <faq-dense-memory>` 所述。
+
+请注意，除了升级硬件之外，上述更改可能会降低稠密重建结果的质量。当取消立体重建过程并在稍后重新启动时，
+之前的进度不会丢失，任何已经处理过的视图都将被跳过。
+
+
+.. _faq-dense-memory:
+
+减少稠密重建过程中的内存使用
+----------------------------
+
+如果你在图块匹配立体过程中耗尽了 GPU 内存，可以通过设置选项 ``--PatchMatchStereo.max_image_size``
+减小最大图像尺寸，或者在 ``stereo/patch-match.cfg`` 文件中将源图像数量从例如 ``__auto__, 30`` 减少到
+``__auto__, 10``。请注意，启用 ``geom_consistency`` 选项会增加所需的 GPU 内存。
+
+如果你在立体或融合过程中耗尽了 CPU 内存，可以减小以吉字节为单位指定的 ``--PatchMatchStereo.cache_size``
+或 ``--StereoFusion.cache_size``，或者可以减小 ``--PatchMatchStereo.max_image_size`` 或
+``--StereoFusion.max_image_size``。请注意，过低的值可能导致处理非常缓慢，并对硬盘造成沉重负载。
+
+对于数千张图像的大规模重建，你应当考虑使用例如 CMVS [furukawa10]_ 将稀疏重建拆分为更易管理的图像簇。
+此外，CMVS 允许剪除观察相同场景元素的冗余图像。请注意，对于这种用例，COLMAP 的稠密重建流程在从命令行
+执行时也支持 PMVS/CMVS 文件夹结构。请参阅工作空间文件夹以获取示例 shell 脚本。请注意，仅当输出类型设置
+为 PMVS 时，才会生成 PMVS/CMVS 的示例 shell 脚本。由于 CMVS 会产生高度重叠的簇，建议根据你可用的系统
+资源和速度需求，将每簇 100 张图像的默认值增大到尽可能高。要使用 CMVS 更改图像数量，你必须相应地修改
+shell 脚本。例如，``cmvs pmvs/ 500`` 将每个簇限制为 500 张图像。如果你想使用 CMVS 剪除冗余图像但不对
+场景进行分簇，可以简单地将这个数字设置为一个非常大的值。
+
+
+.. _faq-dense-manual-source:
+
+在稠密重建过程中手动指定源图像
+------------------------------
+
+你可以在 ``stereo/patch-match.cfg`` 文件中将源图像数量从例如 ``__auto__, 30`` 更改为 ``__auto__, 10``。
+这会自动选择视觉重叠最多的图像作为源图像。你也可以通过指定 ``__all__`` 来将所有其他图像用作源图像。
+或者，你也可以用图像名称手动指定图像，例如::
+
+    image1.jpg
+    image2.jpg, image3.jpg
+    image2.jpg
+    image1.jpg, image3.jpg
+    image3.jpg
+    image1.jpg, image2.jpg
+
+这里，``image2.jpg`` 和 ``image3.jpg`` 被用作 ``image1.jpg`` 的源图像，以此类推。
+
+
+稠密重建中的多 GPU 支持
+-----------------------
+
+你可以通过为支持 CUDA 的 GPU 指定多个索引来在多个 GPU 上运行稠密重建，例如，
+``--PatchMatchStereo.gpu_index=0,1,2,3`` 会在 4 个 GPU 上并行运行稠密重建。你也可以通过两次指定同一个
+GPU 索引来在同一个 GPU 上运行多个稠密重建线程，例如 ``--PatchMatchStereo.gpu_index=0,0,1,1,2,3``。
+默认情况下，COLMAP 为每个支持 CUDA 的 GPU 运行一个稠密重建线程。
+
+
+.. _faq-dense-timeout:
+
+修复稠密重建过程中的 GPU 冻结和超时
+-----------------------------------
+
+立体重建流程使用 CUDA 在 GPU 上运行，并使 GPU 承受沉重负载。你在重建过程中可能会遇到显示冻结甚至程序
+崩溃。作为该问题的一种解决方案，你可以在系统中使用一块未连接到显示器的辅助 GPU，方法是显式设置 GPU
+索引（通常索引 0 对应连接显示器的那块显卡）。或者，你也可以增大系统的 GPU 超时时间，如下文详述。
+
+默认情况下，Windows 操作系统会检测来自 GPU 的响应问题，并通过重置显卡并中止立体重建过程来恢复到一个
+可用的桌面。解决方案是将所谓的“超时检测与恢复”（TDR）延迟增大到一个更大的值。有关如何在 Windows 下
+增大延迟时间，请参阅 `NVIDIA Nsight 文档 <https://goo.gl/UWKVs6>`_ 或 `Microsoft
+文档 <http://www.microsoft.com/whdc/device/display/wddm_timeout.mspx>`_。你可以使用以下 Windows
+注册表项来增大延迟::
+
+    [HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers]
+    "TdrLevel"=dword:00000001
+    "TdrDelay"=dword:00000120
+
+要设置这些注册表项，请使用管理员权限（例如，在 ``cmd.exe`` 或 ``powershell.exe`` 中）执行以下命令::
+
+    reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers /v TdrLevel /t REG_DWORD /d 00000001
+    reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers /v TdrDelay /t REG_DWORD /d 00000120
+
+之后重启你的机器以使更改生效。
+
+Linux/Unix 下的 X 窗口系统具有类似的功能，会检测 GPU 的响应问题。在 X 窗口系统下避免超时问题最简单的
+解决方案是将其关闭，然后从命令行运行立体重建。在 Ubuntu 下，你可以先使用以下命令停止 X::
+
+    sudo service lightdm stop
+
+然后从命令行运行稠密重建代码::
+
+    colmap patch_match_stereo ...
+
+最后，你可以使用以下命令重启你的桌面环境::
+
+    sudo service lightdm start
+
+如果在做出这些更改后稠密重建仍然崩溃，原因很可能是 GPU 内存不足，正如本列表中单独一项所讨论的那样。

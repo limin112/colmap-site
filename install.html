@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>安装 &mdash; COLMAP 4.1.0.dev0 | 92cc0123 (2026-05-29) 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6631871d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f9d9534"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="教程" href="tutorial.html" />
+    <link rel="prev" title="COLMAP" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  <a href="index.html" class="icon icon-home">
+    COLMAP
+  </a>
+    <div class="version">
+      4.1.0.dev0 | 92cc0123 (2026-05-29)
+    </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">安装</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">预编译二进制文件</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#windows">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#docker">Docker</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">从源代码构建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#debian-ubuntu">Debian/Ubuntu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mac">Mac</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vcpkg">VCPKG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#anaconda-mamba">Anaconda/Mamba</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-library">库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">共享库</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#addresssanitizer">AddressSanitizer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">文档</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">特征提取与匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cameras.html">相机模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">输出格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">图形用户界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">历史版本文档</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COLMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">安装</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/install.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="installation">
+<span id="id1"></span><h1>安装<a class="headerlink" href="#installation" title="链接到此标题。"></a></h1>
+<p>你可以下载预编译二进制文件之一，或者手动编译源代码。预编译二进制文件及其他资源
+可从 <a class="reference external" href="https://demuc.de/colmap/">https://demuc.de/colmap/</a> 下载。</p>
+<p>针对 Linux/Unix/BSD 发行版的系统软件包概览可在
+<a class="reference external" href="https://repology.org/metapackage/colmap/versions">https://repology.org/metapackage/colmap/versions</a> 查看。请注意，Linux/Unix/BSD
+默认代码仓库中的 COLMAP 软件包不带 CUDA 支持，如需 CUDA 支持，则必须按下文所述
+从源代码手动构建。</p>
+<p>对于 Mac 用户，<a class="reference external" href="https://brew.sh">Homebrew</a> 提供了一个 COLMAP 的 formula，
+其中包含预编译二进制文件，或可选择从源代码构建。安装好 homebrew 之后，安装 COLMAP
+只需运行 <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">colmap</span></code> 即可。</p>
+<p>COLMAP 可以作为独立应用程序通过命令行或图形用户界面使用。此外，COLMAP 也可构建为
+一个可复用的库，也就是说，你可以将 COLMAP 包含进自己的 C++ 源代码并与之链接，
+具体见下文所述。再者，你还可以在 Python 中通过
+<a class="reference internal" href="pycolmap/index.html#pycolmap-index"><span class="std std-ref">PyCOLMAP</span></a> 使用 COLMAP 的大部分功能。</p>
+<section id="id2">
+<h2>预编译二进制文件<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<section id="windows">
+<h3>Windows<a class="headerlink" href="#windows" title="链接到此标题。"></a></h3>
+<p>为方便起见，Windows 的预编译二进制文件同时包含图形界面和命令行界面的可执行文件。
+要启动 COLMAP GUI，你只需双击 <code class="docutils literal notranslate"><span class="pre">COLMAP.bat</span></code> 批处理脚本，或者从 Windows
+命令行 shell 或 Powershell 中运行它。命令行界面也可通过该批处理脚本访问，它会
+自动设置必要的库路径。要列出可用的 COLMAP 命令，请在命令行 shell <code class="docutils literal notranslate"><span class="pre">cmd.exe</span></code>
+或 Powershell 中运行 <code class="docutils literal notranslate"><span class="pre">COLMAP.bat</span> <span class="pre">-h</span></code>。第一次运行 COLMAP 时，Windows
+defender 可能会向你弹出安全警告，因为这些二进制文件并未经过官方签名。所提供的
+COLMAP 二进制文件由 GitHub Actions CI 机器自动构建。如果你不信任它们，可以按
+下文所述从源代码构建。</p>
+</section>
+<section id="docker">
+<h3>Docker<a class="headerlink" href="#docker" title="链接到此标题。"></a></h3>
+<p>COLMAP 提供了一个带 CUDA 支持的预编译 Docker 镜像。关于如何使用 Docker 构建和
+运行 COLMAP 的详细说明，请参阅
+<a class="reference external" href="https://github.com/colmap/colmap/tree/main/docker">Docker 文档</a>。</p>
+</section>
+</section>
+<section id="id3">
+<h2>从源代码构建<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>COLMAP 可在所有主流平台（Linux、Mac、Windows）上轻松构建。首先，检出最新的源代码:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">colmap</span><span class="o">/</span><span class="n">colmap</span>
+</pre></div>
+</div>
+<p>在 Linux 和 Mac 下，通常建议遵循下面的安装说明，它们使用各自系统的包管理器来安装
+所需的依赖项。或者，在系统软件包有限的较为冷门的系统上，可以使用 VCPKG 的说明从零
+编译所需的依赖项。在 Windows、计算集群上，或者当你在 Linux 或 Mac 下没有 root
+权限时，VCPKG 方式也是首选方法。</p>
+<section id="debian-ubuntu">
+<h3>Debian/Ubuntu<a class="headerlink" href="#debian-ubuntu" title="链接到此标题。"></a></h3>
+<p><em>推荐依赖项：</em> CUDA（至少 11.X 版本）</p>
+<p>来自 Ubuntu 默认代码仓库的依赖项:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> \
+    <span class="n">git</span> \
+    <span class="n">cmake</span> \
+    <span class="n">ninja</span><span class="o">-</span><span class="n">build</span> \
+    <span class="n">build</span><span class="o">-</span><span class="n">essential</span> \
+    <span class="n">libboost</span><span class="o">-</span><span class="n">program</span><span class="o">-</span><span class="n">options</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libboost</span><span class="o">-</span><span class="n">graph</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libboost</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libeigen3</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libopenimageio</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">openimageio</span><span class="o">-</span><span class="n">tools</span> \
+    <span class="n">libmetis</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libgoogle</span><span class="o">-</span><span class="n">glog</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libgtest</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libgmock</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libsqlite3</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libglew</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">qt6</span><span class="o">-</span><span class="n">base</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libqt6opengl6</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libqt6openglwidgets6</span> \
+    <span class="n">libqt6svg6</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libcgal</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libceres</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libsuitesparse</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libcurl4</span><span class="o">-</span><span class="n">openssl</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libssl</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libmkl</span><span class="o">-</span><span class="n">full</span><span class="o">-</span><span class="n">dev</span>
+<span class="c1"># Fix issue in Ubuntu&#39;s openimageio CMake config.</span>
+<span class="c1"># We don&#39;t depend on any of openimageio&#39;s OpenCV functionality,</span>
+<span class="c1"># but it still requires the OpenCV include directory to exist.</span>
+<span class="n">sudo</span> <span class="n">mkdir</span> <span class="o">-</span><span class="n">p</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">opencv4</span>
+</pre></div>
+</div>
+<p>或者，你也可以使用以下命令针对 Qt 5 而非 Qt 6 进行构建:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qtbase5</span><span class="o">-</span><span class="n">dev</span> <span class="n">libqt5opengl5</span><span class="o">-</span><span class="n">dev</span> <span class="n">libqt5svg5</span><span class="o">-</span><span class="n">dev</span>
+</pre></div>
+</div>
+<p>要编译为带 <strong>CUDA 支持</strong>，还需安装 Ubuntu 默认的 CUDA 软件包:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="o">-</span><span class="n">y</span> \
+    <span class="n">nvidia</span><span class="o">-</span><span class="n">cuda</span><span class="o">-</span><span class="n">toolkit</span> \
+    <span class="n">nvidia</span><span class="o">-</span><span class="n">cuda</span><span class="o">-</span><span class="n">toolkit</span><span class="o">-</span><span class="n">gcc</span>
+</pre></div>
+</div>
+<p>或者，从 NVIDIA 官网手动安装最新的 CUDA。在 CMake 配置期间，如果你只想在当前机器上
+运行 COLMAP（默认），请指定 <code class="docutils literal notranslate"><span class="pre">-DCMAKE_CUDA_ARCHITECTURES=native</span></code>；若要能够分发到
+其他机器，请指定 &quot;all&quot;/&quot;all-major&quot;；或者指定某个特定的 CUDA 架构，如 &quot;75&quot; 等。</p>
+<p>配置并编译 COLMAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">colmap</span><span class="o">/</span><span class="n">colmap</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">colmap</span>
+<span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span> <span class="o">-</span><span class="n">GNinja</span> <span class="o">-</span><span class="n">DBLA_VENDOR</span><span class="o">=</span><span class="n">Intel10_64lp</span>
+<span class="n">ninja</span>
+<span class="n">sudo</span> <span class="n">ninja</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>运行 COLMAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">colmap</span> <span class="o">-</span><span class="n">h</span>
+<span class="n">colmap</span> <span class="n">gui</span>
+</pre></div>
+</div>
+<p>在 <strong>Ubuntu 22.04</strong> 下，使用 Ubuntu 默认的 CUDA 软件包和 GCC 编译时存在一个问题，
+你必须针对 GCC 10 进行编译:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">gcc</span><span class="o">-</span><span class="mi">10</span> <span class="n">g</span><span class="o">++-</span><span class="mi">10</span>
+<span class="n">export</span> <span class="n">CC</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">gcc</span><span class="o">-</span><span class="mi">10</span>
+<span class="n">export</span> <span class="n">CXX</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">g</span><span class="o">++-</span><span class="mi">10</span>
+<span class="n">export</span> <span class="n">CUDAHOSTCXX</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">g</span><span class="o">++-</span><span class="mi">10</span>
+<span class="c1"># ... and then run CMake against COLMAP&#39;s sources.</span>
+</pre></div>
+</div>
+<p>请注意，<code class="docutils literal notranslate"><span class="pre">BLA_VENDOR=Intel10_64lp</span></code> 选项会告诉 CMake 去查找 Intel 的 MKL 版 BLAS
+实现。如果你决定针对 OpenBLAS 而非 MKL 进行编译，那么在 Debian/Ubuntu 下你必须安装
+并选择 OpenMP 版本，原因见
+<a class="reference external" href="https://github.com/facebookresearch/faiss/wiki/Troubleshooting#surprising-faiss-openmp-and-openblas-interaction">此问题</a>。</p>
+</section>
+<section id="mac">
+<h3>Mac<a class="headerlink" href="#mac" title="链接到此标题。"></a></h3>
+<p>来自 <a class="reference external" href="https://brew.sh/">Homebrew</a> 的依赖项:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">install</span> \
+    <span class="n">cmake</span> \
+    <span class="n">ninja</span> \
+    <span class="n">boost</span> \
+    <span class="n">eigen</span> \
+    <span class="n">openimageio</span> \
+    <span class="n">curl</span> \
+    <span class="n">libomp</span> \
+    <span class="n">metis</span> \
+    <span class="n">glog</span> \
+    <span class="n">googletest</span> \
+    <span class="n">ceres</span><span class="o">-</span><span class="n">solver</span> \
+    <span class="n">suitesparse</span> \
+    <span class="n">qt</span> \
+    <span class="n">glew</span> \
+    <span class="n">cgal</span> \
+    <span class="n">sqlite3</span>
+<span class="n">brew</span> <span class="n">link</span> <span class="o">--</span><span class="n">force</span> <span class="n">libomp</span>
+</pre></div>
+</div>
+<p>配置并编译 COLMAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">colmap</span><span class="o">/</span><span class="n">colmap</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">colmap</span>
+<span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span> <span class="o">-</span><span class="n">GNinja</span>
+<span class="n">ninja</span>
+<span class="n">sudo</span> <span class="n">ninja</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>如果你的系统上同时也安装了 Qt 5，那么在配置 CMake 时，你可能需要临时链接你的
+Qt 5 安装:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">brew</span> <span class="n">unlink</span> <span class="n">qt</span> <span class="o">&amp;&amp;</span> <span class="n">brew</span> <span class="n">link</span> <span class="o">--</span><span class="n">force</span> <span class="n">qt</span>
+<span class="n">cmake</span> <span class="o">...</span>
+</pre></div>
+</div>
+<p>运行 COLMAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">colmap</span> <span class="o">-</span><span class="n">h</span>
+<span class="n">colmap</span> <span class="n">gui</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Windows<a class="headerlink" href="#id4" title="链接到此标题。"></a></h3>
+<p><em>推荐依赖项：</em> CUDA（至少 11.X 版本）、Visual Studio 2019 或更新版本</p>
+<p>在 Windows 上，推荐的方式是使用 VCPKG 构建 COLMAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">microsoft</span><span class="o">/</span><span class="n">vcpkg</span>
+<span class="n">cd</span> <span class="n">vcpkg</span>
+<span class="o">.</span>\<span class="n">bootstrap</span><span class="o">-</span><span class="n">vcpkg</span><span class="o">.</span><span class="n">bat</span>
+<span class="o">.</span>\<span class="n">vcpkg</span> <span class="n">install</span> <span class="n">colmap</span><span class="p">[</span><span class="n">cuda</span><span class="p">,</span><span class="n">tests</span><span class="p">]:</span><span class="n">x64</span><span class="o">-</span><span class="n">windows</span>
+</pre></div>
+</div>
+<p>要为多个计算架构编译 CUDA，请使用:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">.</span>\<span class="n">vcpkg</span> <span class="n">install</span> <span class="n">colmap</span><span class="p">[</span><span class="n">cuda</span><span class="o">-</span><span class="n">redist</span><span class="p">]:</span><span class="n">x64</span><span class="o">-</span><span class="n">windows</span>
+</pre></div>
+</div>
+<p>更多细节请参阅下一节。</p>
+</section>
+<section id="vcpkg">
+<h3>VCPKG<a class="headerlink" href="#vcpkg" title="链接到此标题。"></a></h3>
+<p>COLMAP 作为 VCPKG 发行版的一部分进行分发。这使得在不同平台上能够方便地从零构建
+COLMAP 及其所有依赖项。请注意，VCPKG 要求你在所用平台上以标准方式手动安装 CUDA。
+要使用 VCPKG 编译 COLMAP，请运行:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">microsoft</span><span class="o">/</span><span class="n">vcpkg</span>
+<span class="n">cd</span> <span class="n">vcpkg</span>
+<span class="o">./</span><span class="n">bootstrap</span><span class="o">-</span><span class="n">vcpkg</span><span class="o">.</span><span class="n">sh</span>
+<span class="o">./</span><span class="n">vcpkg</span> <span class="n">install</span> <span class="n">colmap</span><span class="p">:</span><span class="n">x64</span><span class="o">-</span><span class="n">linux</span>
+</pre></div>
+</div>
+<p>VCPKG 自带对各种其他平台的支持（例如 x64-osx、x64-windows 等）。要编译为带 CUDA
+支持并构建所有测试:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">vcpkg</span> <span class="n">install</span> <span class="n">colmap</span><span class="p">[</span><span class="n">cuda</span><span class="p">,</span><span class="n">tests</span><span class="p">]:</span><span class="n">x64</span><span class="o">-</span><span class="n">linux</span>
+</pre></div>
+</div>
+<p>上述命令将构建 COLMAP 的最新发布版本。要编译 dev 分支中的最新提交，你可以使用以下
+选项:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">vcpkg</span> <span class="n">install</span> <span class="n">colmap</span><span class="p">:</span><span class="n">x64</span><span class="o">-</span><span class="n">linux</span> <span class="o">--</span><span class="n">head</span>
+</pre></div>
+</div>
+<p>要修改源代码，你可以进一步添加 <code class="docutils literal notranslate"><span class="pre">--editable</span> <span class="pre">--no-downloads</span></code>。或者，如果你想从另一个
+文件夹进行构建并使用来自 vcpkg 的依赖项，请先运行 <code class="docutils literal notranslate"><span class="pre">./vcpkg</span> <span class="pre">integrate</span> <span class="pre">install</span></code>
+（在 Windows 下使用 pwsh 和 <code class="docutils literal notranslate"><span class="pre">./scripts/shell/enter_vs_dev_shell.ps1</span></code>），然后
+按如下方式配置 COLMAP:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">colmap</span>
+<span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span> <span class="o">-</span><span class="n">DCMAKE_TOOLCHAIN_FILE</span><span class="o">=</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">vcpkg</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">buildsystems</span><span class="o">/</span><span class="n">vcpkg</span><span class="o">.</span><span class="n">cmake</span> <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Release</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">release</span> <span class="o">--</span><span class="n">target</span> <span class="n">colmap</span> <span class="o">--</span><span class="n">parallel</span> <span class="mi">24</span>
+</pre></div>
+</div>
+</section>
+<section id="anaconda-mamba">
+<h3>Anaconda/Mamba<a class="headerlink" href="#anaconda-mamba" title="链接到此标题。"></a></h3>
+<p>安装 miniconda 并运行以下命令。你可以将 <code class="docutils literal notranslate"><span class="pre">conda</span></code> 替换为 <code class="docutils literal notranslate"><span class="pre">mamba</span></code> 以加快软件包安装速度:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">create</span> <span class="o">-</span><span class="n">n</span> <span class="n">colmap</span> <span class="n">python</span><span class="o">=</span><span class="mf">3.12</span>
+<span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="n">add</span> <span class="n">channels</span> <span class="n">conda</span><span class="o">-</span><span class="n">forge</span>
+<span class="n">conda</span> <span class="n">config</span> <span class="o">--</span><span class="nb">set</span> <span class="n">channel_priority</span> <span class="n">strict</span>
+<span class="n">conda</span> <span class="n">install</span> \
+    <span class="n">cmake</span> \
+    <span class="n">ninja</span> \
+    <span class="n">boost</span> \
+    <span class="n">ccache</span> \
+    <span class="n">eigen</span> \
+    <span class="n">openimageio</span> \
+    <span class="n">curl</span> \
+    <span class="n">metis</span> \
+    <span class="n">glog</span> \
+    <span class="n">gtest</span> \
+    <span class="n">ceres</span><span class="o">-</span><span class="n">solver</span> \
+    <span class="n">suitesparse</span> \
+    <span class="n">qt</span> \
+    <span class="n">glew</span> \
+    <span class="n">sqlite</span> \
+    <span class="n">cgal</span><span class="o">-</span><span class="n">cpp</span> \
+    <span class="n">mesa</span><span class="o">-</span><span class="n">libgl</span><span class="o">-</span><span class="n">devel</span><span class="o">-</span><span class="n">cos7</span><span class="o">-</span><span class="n">x86_64</span> \
+    <span class="n">cuda</span><span class="o">-</span><span class="n">compiler</span><span class="o">==</span><span class="mf">12.6.2</span> \
+    <span class="n">cuda</span><span class="o">-</span><span class="n">cudart</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">cuda</span><span class="o">-</span><span class="n">nvrtc</span><span class="o">-</span><span class="n">dev</span> \
+    <span class="n">libcurand</span><span class="o">-</span><span class="n">dev</span>
+
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">colmap</span><span class="o">/</span><span class="n">colmap</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">colmap</span>
+<span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> <span class="o">..</span> <span class="o">-</span><span class="n">GNinja</span>
+<span class="n">ninja</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="installation-library">
+<span id="id5"></span><h2>库<a class="headerlink" href="#installation-library" title="链接到此标题。"></a></h2>
+<p>如果你想将 COLMAP 包含进自己的库并与之链接，最简单的方式是使用 CMake 作为构建配置
+工具。在配置好 COLMAP 构建并运行 <code class="docutils literal notranslate"><span class="pre">ninja/make</span> <span class="pre">install</span></code> 之后，COLMAP 会自动将所有
+头文件安装到 <code class="docutils literal notranslate"><span class="pre">${CMAKE_INSTALL_PREFIX}/include/colmap</span></code>，将所有库安装到
+<code class="docutils literal notranslate"><span class="pre">${CMAKE_INSTALL_PREFIX}/lib/colmap</span></code>，并将 CMake 配置安装到
+<code class="docutils literal notranslate"><span class="pre">${CMAKE_INSTALL_PREFIX}/share/colmap</span></code>。</p>
+<p>例如，使用如下 <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> 即可像下面这样轻松地针对 COLMAP 编译你自己的源代码:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake_minimum_required</span><span class="p">(</span><span class="n">VERSION</span> <span class="mf">3.10</span><span class="p">)</span>
+
+<span class="n">project</span><span class="p">(</span><span class="n">SampleProject</span><span class="p">)</span>
+
+<span class="n">find_package</span><span class="p">(</span><span class="n">colmap</span> <span class="n">REQUIRED</span><span class="p">)</span>
+<span class="c1"># or to require a specific version: find_package(colmap 3.4 REQUIRED)</span>
+
+<span class="n">add_executable</span><span class="p">(</span><span class="n">hello_world</span> <span class="n">hello_world</span><span class="o">.</span><span class="n">cc</span><span class="p">)</span>
+<span class="n">target_link_libraries</span><span class="p">(</span><span class="n">hello_world</span> <span class="n">colmap</span><span class="p">::</span><span class="n">colmap</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>配合源代码 <code class="docutils literal notranslate"><span class="pre">hello_world.cc</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#include &lt;cstdlib&gt;
+#include &lt;iostream&gt;
+
+#include &lt;colmap/controllers/option_manager.h&gt;
+#include &lt;colmap/util/string.h&gt;
+
+int main(int argc, char** argv) {
+    colmap::InitializeGlog(argv);
+
+    std::string message;
+    colmap::OptionManager options;
+    options.AddRequiredOption(&quot;message&quot;, &amp;message);
+    if (!options.Parse(argc, argv)) {
+        return EXIT_FAILURE;
+    }
+
+    std::cout &lt;&lt; colmap::StringPrintf(&quot;Hello %s!\n&quot;, message.c_str());
+
+    return EXIT_SUCCESS;
+}
+</pre></div>
+</div>
+<p>然后按如下方式编译并运行你的代码:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mkdir build
+cd build
+export colmap_DIR=${CMAKE_INSTALL_PREFIX}/share/colmap
+cmake .. -GNinja
+ninja
+./hello_world --message &quot;world&quot;
+</pre></div>
+</div>
+<p>本示例的源代码存放在 <code class="docutils literal notranslate"><span class="pre">doc/sample-project</span></code> 下。</p>
+</section>
+<section id="id6">
+<h2>共享库<a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<p>默认情况下，COLMAP 构建静态库。要改为构建共享库/动态库，请启用 <code class="docutils literal notranslate"><span class="pre">BUILD_SHARED_LIBS</span></code>
+选项:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmake</span> <span class="o">..</span> <span class="o">-</span><span class="n">GNinja</span> <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span>
+</pre></div>
+</div>
+<p>与静态库相比的权衡：</p>
+<ul class="simple">
+<li><p><strong>更快的增量链接</strong>：在开发期间，只需重新链接发生变更的那个共享库，而不必重新链接
+所有可执行文件。</p></li>
+<li><p><strong>更低的磁盘占用</strong>：多个可执行文件在磁盘和内存中共享相同的库文件。</p></li>
+<li><p><strong>无跨库优化</strong>：编译器无法跨共享库边界进行内联或应用链接期优化（LTO/IPO），这会
+降低运行时性能。</p></li>
+<li><p><strong>符号解析开销</strong>：动态链接器在加载时解析符号，会增加少量的启动开销以及间接调用
+开销。</p></li>
+</ul>
+<p>对于开发工作流而言，共享库可以显著加快&quot;编辑-编译-测试&quot;的循环。对于生产环境或基准
+测试，则推荐使用静态库。</p>
+</section>
+<section id="addresssanitizer">
+<h2>AddressSanitizer<a class="headerlink" href="#addresssanitizer" title="链接到此标题。"></a></h2>
+<p>如果你想构建启用了 address sanitizer 标志的 COLMAP，你需要使用一个支持 ASan 的较新
+编译器。例如，你可以在你的 Ubuntu 机器上手动安装一个较新的 clang 版本，并按如下方式
+调用 CMake:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CC</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">clang</span> <span class="n">CXX</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">clang</span><span class="o">++</span> <span class="n">cmake</span> <span class="o">..</span> \
+    <span class="o">-</span><span class="n">DASAN_ENABLED</span><span class="o">=</span><span class="n">ON</span> \
+    <span class="o">-</span><span class="n">DTESTS_ENABLED</span><span class="o">=</span><span class="n">ON</span> \
+    <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">RelWithDebInfo</span>
+</pre></div>
+</div>
+<p>请注意，将 ASan 与调试符号结合起来通常很有用，这样能为所报告的问题获得有意义的调用
+跟踪。</p>
+</section>
+<section id="id7">
+<h2>文档<a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<ol class="arabic">
+<li><p>安装最新的 pycolmap 以获取最新的 pycolmap API 文档。</p></li>
+<li><p>构建文档:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">colmap</span><span class="o">/</span><span class="n">doc</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">make</span> <span class="n">html</span>
+<span class="nb">open</span> <span class="n">_build</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span> <span class="c1"># preview results</span>
+</pre></div>
+</div>
+<p>或者，你也可以将文档构建为 PDF、EPUB 等格式:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">make</span> <span class="n">latexpdf</span>
+<span class="nb">open</span> <span class="n">_build</span><span class="o">/</span><span class="n">pdf</span><span class="o">/</span><span class="n">COLMAP</span><span class="o">.</span><span class="n">pdf</span>
+</pre></div>
+</div>
+</li>
+<li><p>克隆网站代码仓库 <a class="reference external" href="https://github.com/colmap/colmap.github.io">colmap/colmap.github.io</a>。</p></li>
+<li><p>将位于 <code class="docutils literal notranslate"><span class="pre">_build/html</span></code> 的生成文件内容复制到所克隆代码仓库的根目录。</p></li>
+<li><p>向 <a class="reference external" href="https://github.com/colmap/colmap.github.io">colmap/colmap.github.io</a>
+代码仓库创建一个包含更新文件的 pull request。</p></li>
+<li><p>（可选，如果是主发布版本）将上一个发布版本作为旧版本（legacy）复制到 &quot;legacy&quot;
+文件夹中，放在以发布版本号命名的文件夹下 <a class="reference external" href="https://github.com/colmap/colmap.github.io/tree/master/legacy">见此处</a>。</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="index.html" class="btn btn-neutral float-left" title="COLMAP" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="tutorial.html" class="btn btn-neutral float-right" title="教程" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Johannes L. Schoenberger。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

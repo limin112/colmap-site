@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>相机模型 &mdash; COLMAP 4.1.0.dev0 | 92cc0123 (2026-05-29) 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6631871d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f9d9534"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="相机装置（rig）支持" href="rigs.html" />
+    <link rel="prev" title="数据库格式" href="database.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  <a href="index.html" class="icon icon-home">
+    COLMAP
+  </a>
+    <div class="version">
+      4.1.0.dev0 | 92cc0123 (2026-05-29)
+    </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">特征提取与匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">相机模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="format.html">输出格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">图形用户界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">历史版本文档</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COLMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">相机模型</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/cameras.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>相机模型<a class="headerlink" href="#id1" title="链接到此标题。"></a></h1>
+<p>COLMAP 实现了多种复杂程度不同的相机模型。如果事先不知道任何内参，通常最好使用足以
+建模畸变效应的最简单相机模型：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SIMPLE_PINHOLE</span></code>、<code class="docutils literal notranslate"><span class="pre">PINHOLE</span></code>：如果你的图像事先已经去畸变，请使用这些相机模型。
+它们分别使用一个和两个焦距参数。请注意，即使在图像已去畸变的情况下，COLMAP 也可能
+尝试用更复杂的相机模型来改进内参。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SIMPLE_RADIAL</span></code>、<code class="docutils literal notranslate"><span class="pre">RADIAL</span></code>：如果内参未知且每幅图像都有不同的相机标定（例如在
+互联网照片的情况下），这应当是首选的相机模型。这两个模型都是 <code class="docutils literal notranslate"><span class="pre">OPENCV</span></code> 模型的简化
+版本，分别用一个和两个参数仅建模径向畸变效应。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OPENCV</span></code>、<code class="docutils literal notranslate"><span class="pre">FULL_OPENCV</span></code>：如果你事先知道标定参数，请使用这些相机模型。如果你为多幅
+图像共享内参，也可以尝试让 COLMAP 估计这些参数。请注意，如果每幅图像都有各自独立的
+一组内参，自动参数估计极有可能失败。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SIMPLE_RADIAL_FISHEYE</span></code>、<code class="docutils literal notranslate"><span class="pre">RADIAL_FISHEYE</span></code>、<code class="docutils literal notranslate"><span class="pre">OPENCV_FISHEYE</span></code>、<code class="docutils literal notranslate"><span class="pre">FOV</span></code>、
+<code class="docutils literal notranslate"><span class="pre">THIN_PRISM_FISHEYE</span></code>、<code class="docutils literal notranslate"><span class="pre">RAD_TAN_THIN_PRISM_FISHEYE</span></code>：将这些相机模型用于鱼眼镜头，
+并请注意所有其他模型实际上都无法建模鱼眼镜头的畸变效应。<code class="docutils literal notranslate"><span class="pre">FOV</span></code> 模型被 Google
+Project Tango 使用（请确保不要将 <code class="docutils literal notranslate"><span class="pre">omega</span></code> 初始化为零）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SIMPLE_FISHEYE</span></code>、<code class="docutils literal notranslate"><span class="pre">FISHEYE</span></code>：将这些相机模型用于采用等距投影的鱼眼镜头，其中畸变
+可以忽略或已被预先校正。这些模型使用等距投影（theta = atan(r)），不带任何畸变参数。
+<code class="docutils literal notranslate"><span class="pre">SIMPLE_FISHEYE</span></code> 有单个焦距（f），而 <code class="docutils literal notranslate"><span class="pre">FISHEYE</span></code> 有两个（fx、fy）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SIMPLE_DIVISION</span></code>、<code class="docutils literal notranslate"><span class="pre">DIVISION</span></code>：如果你事先知道标定参数，请使用这些相机模型。与
+<code class="docutils literal notranslate"><span class="pre">SIMPLE_RADIAL</span></code> 和 <code class="docutils literal notranslate"><span class="pre">RADIAL</span></code> 模型类似，它们可以建模简单的径向畸变效应。这两个模型
+在小畸变情况下具有一阶局部等价性。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EUCM</span></code>：将此相机模型用于广角鱼眼相机和折反射系统。它在标准针孔参数之外，使用两个
+参数来表示径向畸变。</p></li>
+</ul>
+<p>你可以通过在模型查看器中双击特定图像，或通过导出模型并打开 <code class="docutils literal notranslate"><span class="pre">cameras.txt</span></code> 文件，来
+查看估计得到的内参。</p>
+<p>为获得最佳重建结果，你可能需要针对你的问题尝试不同的相机模型。一般而言，当重建失败
+且估计得到的焦距值/畸变系数严重错误时，这是所用相机模型过于复杂的迹象。相反，如果
+COLMAP 使用了大量迭代式的局部和全局光束法平差，则是所用相机模型过于简单、无法充分
+建模畸变效应的迹象。</p>
+<p>你还可以在多幅图像之间共享内参以获得更可靠的结果
+（参见 <a class="reference internal" href="faq.html#faq-share-intrinsics"><span class="std std-ref">Share intrinsic camera parameters</span></a>），或者你可以
+在重建过程中固定内参
+（参见 <a class="reference internal" href="faq.html#faq-fix-intrinsics"><span class="std std-ref">Fix intrinsic camera parameters</span></a>）。</p>
+<p>有关不同相机模型参数的信息，请参阅相机模型头文件：
+<a class="reference external" href="https://github.com/colmap/colmap/blob/main/src/colmap/sensor/models.h">https://github.com/colmap/colmap/blob/main/src/colmap/sensor/models.h</a></p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="database.html" class="btn btn-neutral float-left" title="数据库格式" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="rigs.html" class="btn btn-neutral float-right" title="相机装置（rig）支持" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Johannes L. Schoenberger。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

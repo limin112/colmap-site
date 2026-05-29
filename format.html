@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>输出格式 &mdash; COLMAP 4.1.0.dev0 | 92cc0123 (2026-05-29) 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/custom.css?v=6631871d" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=4f9d9534"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="_static/translations.js?v=540d3cec"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="数据集" href="datasets.html" />
+    <link rel="prev" title="相机装置（rig）支持" href="rigs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+  <a href="index.html" class="icon icon-home">
+    COLMAP
+  </a>
+    <div class="version">
+      4.1.0.dev0 | 92cc0123 (2026-05-29)
+    </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">教程</a></li>
+<li class="toctree-l1"><a class="reference internal" href="concepts.html">核心概念</a></li>
+<li class="toctree-l1"><a class="reference internal" href="features.html">特征提取与匹配</a></li>
+<li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cameras.html">相机模型</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">输出格式</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id2">二进制文件格式</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">索引与标识符</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">稀疏重建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">文本格式</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#rigs-txt">rigs.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#cameras-txt">cameras.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frames-txt">frames.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#images-txt">images.txt</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#points3d-txt">points3D.txt</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">稠密重建</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">深度图与法向图</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">一致性图</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="datasets.html">数据集</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">图形用户界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
+<li class="toctree-l1"><a class="reference internal" href="legacy.html">历史版本文档</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">COLMAP</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">输出格式</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/format.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="output-format">
+<span id="id1"></span><h1>输出格式<a class="headerlink" href="#output-format" title="链接到此标题。"></a></h1>
+<section id="id2">
+<h2>二进制文件格式<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>请注意，所有二进制数据均采用小端字节序（little endian）存储。所有 x86 处理器都是
+小端序，因此在大多数平台上读取 COLMAP 二进制数据时无需特别处理。这些数据最方便的解析
+方式是使用位于 <code class="docutils literal notranslate"><span class="pre">src/colmap/scene/reconstruction_io.h</span></code> 下的 C++ 重建 API，或者使用
+pycolmap 提供的 Python API。</p>
+</section>
+<section id="id3">
+<h2>索引与标识符<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<p>任何以 <code class="docutils literal notranslate"><span class="pre">*_idx</span></code> 结尾的变量名都应被视为有序、连续且从零开始的索引。一般而言，任何以
+<code class="docutils literal notranslate"><span class="pre">*_id</span></code> 结尾的变量名都应被视为无序、非连续的标识符。</p>
+<p>例如，相机的唯一标识符（<code class="docutils literal notranslate"><span class="pre">CAMERA_ID</span></code>）、图像的唯一标识符（<code class="docutils literal notranslate"><span class="pre">IMAGE_ID</span></code>）以及 3D 点的
+唯一标识符（<code class="docutils literal notranslate"><span class="pre">POINT3D_ID</span></code>）都是无序的，而且很可能不连续。这也意味着最大的
+<code class="docutils literal notranslate"><span class="pre">POINT3D_ID</span></code> 不一定对应于 3D 点的数量，因为由于重建过程中的过滤等原因，某些
+<code class="docutils literal notranslate"><span class="pre">POINT3D_ID</span></code> 是缺失的。</p>
+</section>
+<section id="id4">
+<h2>稀疏重建<a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
+<p>默认情况下，COLMAP 使用二进制文件格式（机器可读、速度快）来存储稀疏模型。此外，COLMAP
+还提供了将稀疏模型存储为文本文件（人类可读、速度慢）的选项。在这两种情况下，信息都会
+被拆分到多个文件中，分别保存关于 <code class="docutils literal notranslate"><span class="pre">rigs</span></code>、<code class="docutils literal notranslate"><span class="pre">cameras</span></code>、<code class="docutils literal notranslate"><span class="pre">frames</span></code>、<code class="docutils literal notranslate"><span class="pre">images</span></code> 和
+<code class="docutils literal notranslate"><span class="pre">points</span></code> 的信息。任何包含这些文件的目录都构成一个稀疏模型。二进制文件的扩展名为
+<code class="docutils literal notranslate"><span class="pre">.bin</span></code>，文本文件的扩展名为 <code class="docutils literal notranslate"><span class="pre">.txt</span></code>。请注意，当从一个同时包含二进制文件和文本文件的
+目录加载模型时，COLMAP 会优先使用二进制格式。</p>
+<p>请注意，较旧版本的 COLMAP 不支持相机装置（rig），因此 <code class="docutils literal notranslate"><span class="pre">rigs</span></code> 和 <code class="docutils literal notranslate"><span class="pre">frames</span></code> 文件
+可能缺失。COLMAP 中的重建 I/O 例程完全向后兼容，即没有这些文件的模型也能被读取，并会
+自动初始化平凡的 rig 和 frame。此外，较新版本输出的重建结果中的 <code class="docutils literal notranslate"><span class="pre">cameras</span></code> 和
+<code class="docutils literal notranslate"><span class="pre">images</span></code> 文件与旧版输出完全兼容。</p>
+<p>要在 GUI 中导出当前所选的模型，请选择 <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">model</span></code>。要导出当前数据集中所有
+已重建的模型，请选择 <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">all</span></code>。随后所选文件夹中将包含模型文件，并且为方便
+起见，还会包含将该模型导入 COLMAP 的当前项目配置。要导入已导出的模型，例如用于可视化
+或恢复重建，请选择 <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Import</span> <span class="pre">model</span></code> 并选择包含 <code class="docutils literal notranslate"><span class="pre">rigs</span></code>、<code class="docutils literal notranslate"><span class="pre">cameras</span></code>、
+<code class="docutils literal notranslate"><span class="pre">frames</span></code>、<code class="docutils literal notranslate"><span class="pre">images</span></code> 和 <code class="docutils literal notranslate"><span class="pre">points3D</span></code> 文件的文件夹。</p>
+<p>要在 GUI 中在二进制格式和文本格式之间转换，你可以使用 <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Import</span> <span class="pre">model</span></code> 加载模型，
+然后使用 <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">model</span></code>（二进制）或 <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">model</span> <span class="pre">as</span> <span class="pre">text</span></code>（文本）
+将模型导出为所需的输出格式。此外，你还可以使用 <code class="docutils literal notranslate"><span class="pre">File</span> <span class="pre">&gt;</span> <span class="pre">Export</span> <span class="pre">as...</span></code> 将稀疏模型导出
+为其他格式，例如 VisualSfM 的 NVM、Bundler 文件、PLY、VRML 等。要从 CLI 在各种格式
+之间转换，请使用 <code class="docutils literal notranslate"><span class="pre">model_converter</span></code> 可执行文件。</p>
+<p>有两个源文件可方便地使用 Python（pycolmap）和 Matlab（<code class="docutils literal notranslate"><span class="pre">scripts/matlab/read_model.m</span></code>，
+支持文本格式）读取稀疏重建结果。</p>
+<section id="id5">
+<h3>文本格式<a class="headerlink" href="#id5" title="链接到此标题。"></a></h3>
+<p>COLMAP 为每个已重建的模型导出以下文本文件：<code class="docutils literal notranslate"><span class="pre">rigs.txt</span></code>、<code class="docutils literal notranslate"><span class="pre">cameras.txt</span></code>、
+<code class="docutils literal notranslate"><span class="pre">frames.txt</span></code>、<code class="docutils literal notranslate"><span class="pre">images.txt</span></code> 和 <code class="docutils literal notranslate"><span class="pre">points3D.txt</span></code>。注释以前导的 &quot;#&quot; 字符开头，并会
+被忽略。开头的注释行简要描述了文本文件的格式，本页将对此作更详细的说明。</p>
+<section id="rigs-txt">
+<h4>rigs.txt<a class="headerlink" href="#rigs-txt" title="链接到此标题。"></a></h4>
+<p>此文件包含已配置的相机装置（rig）和传感器，例如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Rig calib list with one line of data per calib:</span>
+<span class="c1">#   RIG_ID, NUM_SENSORS, REF_SENSOR_TYPE, REF_SENSOR_ID, SENSORS[] as (SENSOR_TYPE, SENSOR_ID, HAS_POSE, [QW, QX, QY, QZ, TX, TY, TZ])</span>
+<span class="c1"># Number of rigs: 1</span>
+<span class="mi">1</span> <span class="mi">2</span> <span class="n">CAMERA</span> <span class="mi">1</span> <span class="n">CAMERA</span> <span class="mi">2</span> <span class="mi">1</span> <span class="o">-</span><span class="mf">0.9999701516465348</span> <span class="o">-</span><span class="mf">0.0011120266840749639</span> <span class="o">-</span><span class="mf">0.0075347911527510894</span> <span class="mf">0.0012985125893421306</span> <span class="o">-</span><span class="mf">0.19316906391350164</span> <span class="mf">0.00085222218993398979</span> <span class="mf">0.0070758955539026785</span>
+<span class="mi">2</span> <span class="mi">1</span> <span class="n">CAMERA</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>这里，数据集包含两个 rig：第一个 rig 有两个相机，第二个 rig 有 1 个相机。</p>
+</section>
+<section id="cameras-txt">
+<h4>cameras.txt<a class="headerlink" href="#cameras-txt" title="链接到此标题。"></a></h4>
+<p>此文件包含数据集中所有已重建相机的内参，每个相机占一行，例如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Camera list with one line of data per camera:</span>
+<span class="c1">#   CAMERA_ID, MODEL, WIDTH, HEIGHT, PARAMS[]</span>
+<span class="c1"># Number of cameras: 3</span>
+<span class="mi">1</span> <span class="n">SIMPLE_PINHOLE</span> <span class="mi">3072</span> <span class="mi">2304</span> <span class="mf">2559.81</span> <span class="mi">1536</span> <span class="mi">1152</span>
+<span class="mi">2</span> <span class="n">PINHOLE</span> <span class="mi">3072</span> <span class="mi">2304</span> <span class="mf">2560.56</span> <span class="mf">2560.56</span> <span class="mi">1536</span> <span class="mi">1152</span>
+<span class="mi">3</span> <span class="n">SIMPLE_RADIAL</span> <span class="mi">3072</span> <span class="mi">2304</span> <span class="mf">2559.69</span> <span class="mi">1536</span> <span class="mi">1152</span> <span class="o">-</span><span class="mf">0.0218531</span>
+</pre></div>
+</div>
+<p>这里，数据集包含 3 个基于不同畸变模型的相机，它们具有相同的传感器尺寸（宽度：3072，
+高度：2304）。参数的长度是可变的，取决于相机模型。对于第一个相机，共有 3 个参数，
+其单一焦距为 2559.81 像素，主点位于像素位置 <code class="docutils literal notranslate"><span class="pre">(1536,</span> <span class="pre">1152)</span></code>。一个相机的内参可以被
+多个图像共享，这些图像通过唯一标识符 <code class="docutils literal notranslate"><span class="pre">CAMERA_ID</span></code> 来引用相机。</p>
+</section>
+<section id="frames-txt">
+<h4>frames.txt<a class="headerlink" href="#frames-txt" title="链接到此标题。"></a></h4>
+<p>此文件包含各个 frame，其中一个 frame 定义了某个 rig 的一个特定实例，该实例的全部或
+部分传感器在同一时刻进行曝光，例如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Frame list with one line of data per frame:</span>
+<span class="c1">#   FRAME_ID, RIG_ID, RIG_FROM_WORLD[QW, QX, QY, QZ, TX, TY, TZ], NUM_DATA_IDS, DATA_IDS[] as (SENSOR_TYPE, SENSOR_ID, DATA_ID)</span>
+<span class="c1"># Number of frames: 151</span>
+<span class="mi">1</span> <span class="mi">1</span> <span class="mf">0.99801363919752195</span> <span class="mf">0.040985139360073107</span> <span class="mf">0.041890917712361225</span> <span class="o">-</span><span class="mf">0.023111584553400576</span> <span class="o">-</span><span class="mf">5.2666546897987896</span> <span class="o">-</span><span class="mf">0.17120007823690631</span> <span class="mf">0.12300519697527648</span> <span class="mi">2</span> <span class="n">CAMERA</span> <span class="mi">1</span> <span class="mi">1</span> <span class="n">CAMERA</span> <span class="mi">2</span> <span class="mi">2</span>
+<span class="mi">2</span> <span class="mi">2</span> <span class="mf">0.99816472047267968</span> <span class="mf">0.037605501383281774</span> <span class="mf">0.043101511724657163</span> <span class="o">-</span><span class="mf">0.019881568259519072</span> <span class="o">-</span><span class="mf">5.1956060695789192</span> <span class="o">-</span><span class="mf">0.20794508616745555</span> <span class="mf">0.14967533910764824</span> <span class="mi">1</span> <span class="n">CAMERA</span> <span class="mi">3</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>这里，数据集包含两个 frame，其中 frame 1 是 rig 1 的一个实例，frame 2 是 rig 2 的
+一个实例。</p>
+</section>
+<section id="images-txt">
+<h4>images.txt<a class="headerlink" href="#images-txt" title="链接到此标题。"></a></h4>
+<p>此文件包含数据集中所有已重建图像的位姿和关键点，每个图像占两行，例如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Image list with two lines of data per image:</span>
+<span class="c1">#   IMAGE_ID, QW, QX, QY, QZ, TX, TY, TZ, CAMERA_ID, NAME</span>
+<span class="c1">#   POINTS2D[] as (X, Y, POINT3D_ID)</span>
+<span class="c1"># Number of images: 2, mean observations per image: 2</span>
+<span class="mi">1</span> <span class="mf">0.851773</span> <span class="mf">0.0165051</span> <span class="mf">0.503764</span> <span class="o">-</span><span class="mf">0.142941</span> <span class="o">-</span><span class="mf">0.737434</span> <span class="mf">1.02973</span> <span class="mf">3.74354</span> <span class="mi">1</span> <span class="n">P1180141</span><span class="o">.</span><span class="n">JPG</span>
+<span class="mf">2362.39</span> <span class="mf">248.498</span> <span class="mi">58396</span> <span class="mf">1784.7</span> <span class="mf">268.254</span> <span class="mi">59027</span> <span class="mf">1784.7</span> <span class="mf">268.254</span> <span class="o">-</span><span class="mi">1</span>
+<span class="mi">2</span> <span class="mf">0.851773</span> <span class="mf">0.0165051</span> <span class="mf">0.503764</span> <span class="o">-</span><span class="mf">0.142941</span> <span class="o">-</span><span class="mf">0.737434</span> <span class="mf">1.02973</span> <span class="mf">3.74354</span> <span class="mi">1</span> <span class="n">P1180142</span><span class="o">.</span><span class="n">JPG</span>
+<span class="mf">1190.83</span> <span class="mf">663.957</span> <span class="mi">23056</span> <span class="mf">1258.77</span> <span class="mf">640.354</span> <span class="mi">59070</span>
+</pre></div>
+</div>
+<p>这里，前两行定义了第一个图像的信息，以此类推。图像的重建位姿被指定为从世界坐标系到该
+图像相机坐标系的投影，使用一个四元数 <code class="docutils literal notranslate"><span class="pre">(QW,</span> <span class="pre">QX,</span> <span class="pre">QY,</span> <span class="pre">QZ)</span></code> 和一个平移向量
+<code class="docutils literal notranslate"><span class="pre">(TX,</span> <span class="pre">TY,</span> <span class="pre">TZ)</span></code> 表示。该四元数采用 Hamilton 约定定义，例如 Eigen 库也使用这一约定。
+投影中心/相机中心的坐标由 <code class="docutils literal notranslate"><span class="pre">-R^t</span> <span class="pre">*</span> <span class="pre">T</span></code> 给出，其中 <code class="docutils literal notranslate"><span class="pre">R^t</span></code> 是由四元数构成的 3x3 旋转
+矩阵的逆/转置，<code class="docutils literal notranslate"><span class="pre">T</span></code> 是平移向量。图像的局部相机坐标系的定义方式为：从图像视角看，X 轴
+指向右方，Y 轴指向下方，Z 轴指向前方。</p>
+<p>上面示例中的两个图像都使用相同的相机模型并共享内参（<code class="docutils literal notranslate"><span class="pre">CAMERA_ID</span> <span class="pre">=</span> <span class="pre">1</span></code>）。图像名称是
+相对于项目所选基准图像文件夹的相对路径。第一个图像有 3 个关键点，第二个图像有 2 个
+关键点，关键点的位置以像素坐标指定。两个图像都观测到 2 个 3D 点，并请注意，第一个图像
+的最后一个关键点在重建中没有观测到任何 3D 点，因为其 3D 点标识符为 -1。</p>
+</section>
+<section id="points3d-txt">
+<h4>points3D.txt<a class="headerlink" href="#points3d-txt" title="链接到此标题。"></a></h4>
+<p>此文件包含数据集中所有已重建 3D 点的信息，每个点占一行，例如:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 3D point list with one line of data per point:</span>
+<span class="c1">#   POINT3D_ID, X, Y, Z, R, G, B, ERROR, TRACK[] as (IMAGE_ID, POINT2D_IDX)</span>
+<span class="c1"># Number of points: 3, mean track length: 3.3334</span>
+<span class="mi">63390</span> <span class="mf">1.67241</span> <span class="mf">0.292931</span> <span class="mf">0.609726</span> <span class="mi">115</span> <span class="mi">121</span> <span class="mi">122</span> <span class="mf">1.33927</span> <span class="mi">16</span> <span class="mi">6542</span> <span class="mi">15</span> <span class="mi">7345</span> <span class="mi">6</span> <span class="mi">6714</span> <span class="mi">14</span> <span class="mi">7227</span>
+<span class="mi">63376</span> <span class="mf">2.01848</span> <span class="mf">0.108877</span> <span class="o">-</span><span class="mf">0.0260841</span> <span class="mi">102</span> <span class="mi">209</span> <span class="mi">250</span> <span class="mf">1.73449</span> <span class="mi">16</span> <span class="mi">6519</span> <span class="mi">15</span> <span class="mi">7322</span> <span class="mi">14</span> <span class="mi">7212</span> <span class="mi">8</span> <span class="mi">3991</span>
+<span class="mi">63371</span> <span class="mf">1.71102</span> <span class="mf">0.28566</span> <span class="mf">0.53475</span> <span class="mi">245</span> <span class="mi">251</span> <span class="mi">249</span> <span class="mf">0.612829</span> <span class="mi">118</span> <span class="mi">4140</span> <span class="mi">117</span> <span class="mi">4473</span>
+</pre></div>
+</div>
+<p>这里，有三个已重建的 3D 点，其中 <code class="docutils literal notranslate"><span class="pre">POINT2D_IDX</span></code> 定义了 <code class="docutils literal notranslate"><span class="pre">images.txt</span></code> 文件中关键点
+的从零开始的索引。误差以重投影误差的像素数给出，且仅在全局光束法平差之后才会更新。</p>
+</section>
+</section>
+</section>
+<section id="id6">
+<h2>稠密重建<a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<p>COLMAP 使用以下工作空间文件夹结构:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>+── images
+│   +── image1.jpg
+│   +── image2.jpg
+│   +── ...
++── sparse
+│   +── cameras.txt
+│   +── images.txt
+│   +── points3D.txt
++── stereo
+│   +── consistency_graphs
+│   │   +── image1.jpg.photometric.bin
+│   │   +── image2.jpg.photometric.bin
+│   │   +── ...
+│   +── depth_maps
+│   │   +── image1.jpg.photometric.bin
+│   │   +── image2.jpg.photometric.bin
+│   │   +── ...
+│   +── normal_maps
+│   │   +── image1.jpg.photometric.bin
+│   │   +── image2.jpg.photometric.bin
+│   │   +── ...
+│   +── patch-match.cfg
+│   +── fusion.cfg
++── fused.ply
++── meshed-poisson.ply
++── meshed-delaunay.ply
++── textured
+│   +── mesh.ply
+│   +── texture.png
++── run-colmap-geometric.sh
++── run-colmap-photometric.sh
+</pre></div>
+</div>
+<p>这里，<code class="docutils literal notranslate"><span class="pre">images</span></code> 文件夹包含去畸变后的图像，<code class="docutils literal notranslate"><span class="pre">sparse</span></code> 文件夹包含带去畸变相机的稀疏
+重建，<code class="docutils literal notranslate"><span class="pre">stereo</span></code> 文件夹包含立体重建结果，<code class="docutils literal notranslate"><span class="pre">fused.ply</span></code>、<code class="docutils literal notranslate"><span class="pre">meshed-poisson.ply</span></code> 和
+<code class="docutils literal notranslate"><span class="pre">meshed-delaunay.ply</span></code> 是融合和网格化过程的结果，<code class="docutils literal notranslate"><span class="pre">textured</span></code> 文件夹包含由
+<code class="docutils literal notranslate"><span class="pre">mesh_texturer</span></code> 生成的带纹理网格（<code class="docutils literal notranslate"><span class="pre">mesh.ply</span></code> 带有逐面 UV 坐标，<code class="docutils literal notranslate"><span class="pre">texture.png</span></code>
+为纹理图集），而 <code class="docutils literal notranslate"><span class="pre">run-colmap-geometric.sh</span></code> 和 <code class="docutils literal notranslate"><span class="pre">run-colmap-photometric.sh</span></code> 则
+包含用于执行稠密重建的示例命令行用法。</p>
+<section id="id7">
+<h3>深度图与法向图<a class="headerlink" href="#id7" title="链接到此标题。"></a></h3>
+<p>深度图存储为文本与二进制混合的文件。文本头部以 <code class="docutils literal notranslate"><span class="pre">width&amp;height&amp;channels&amp;</span></code> 的格式定义
+图像的尺寸，随后是按行主序排列的 <code class="docutils literal notranslate"><span class="pre">float32</span></code> 二进制数据。对于深度图 <code class="docutils literal notranslate"><span class="pre">channels=1</span></code>，
+对于法向图 <code class="docutils literal notranslate"><span class="pre">channels=3</span></code>。深度图和法向图可以方便地使用 Python（通过 pycolmap）读取，
+也可以使用 Matlab 通过 <code class="docutils literal notranslate"><span class="pre">scripts/matlab/read_depth_map.m</span></code> 和
+<code class="docutils literal notranslate"><span class="pre">scripts/matlab/read_normal_map.m</span></code> 中的函数读取。</p>
+</section>
+<section id="id8">
+<h3>一致性图<a class="headerlink" href="#id8" title="链接到此标题。"></a></h3>
+<p>一致性图针对图像中的所有像素，定义了每个像素与之保持一致的源图像。该图存储为文本与
+二进制混合的文件，其中文本部分与深度图和法向图相同，二进制部分是一个连续的 <code class="docutils literal notranslate"><span class="pre">int32</span></code>
+值列表，格式为 <code class="docutils literal notranslate"><span class="pre">&lt;row&gt;&lt;col&gt;&lt;N&gt;&lt;image_idx1&gt;...&lt;image_idxN&gt;</span></code>。这里，<code class="docutils literal notranslate"><span class="pre">(row,</span> <span class="pre">col)</span></code>
+定义像素在图像中的位置，其后是一个由 <code class="docutils literal notranslate"><span class="pre">N</span></code> 个图像索引组成的列表。这些索引是相对于
+<code class="docutils literal notranslate"><span class="pre">images.txt</span></code> 文件中的顺序而指定的。</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="rigs.html" class="btn btn-neutral float-left" title="相机装置（rig）支持" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="datasets.html" class="btn btn-neutral float-right" title="数据集" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Johannes L. Schoenberger。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

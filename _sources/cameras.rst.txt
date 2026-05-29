@@ -1,0 +1,43 @@
+相机模型
+========
+
+COLMAP 实现了多种复杂程度不同的相机模型。如果事先不知道任何内参，通常最好使用足以
+建模畸变效应的最简单相机模型：
+
+- ``SIMPLE_PINHOLE``、``PINHOLE``：如果你的图像事先已经去畸变，请使用这些相机模型。
+  它们分别使用一个和两个焦距参数。请注意，即使在图像已去畸变的情况下，COLMAP 也可能
+  尝试用更复杂的相机模型来改进内参。
+- ``SIMPLE_RADIAL``、``RADIAL``：如果内参未知且每幅图像都有不同的相机标定（例如在
+  互联网照片的情况下），这应当是首选的相机模型。这两个模型都是 ``OPENCV`` 模型的简化
+  版本，分别用一个和两个参数仅建模径向畸变效应。
+- ``OPENCV``、``FULL_OPENCV``：如果你事先知道标定参数，请使用这些相机模型。如果你为多幅
+  图像共享内参，也可以尝试让 COLMAP 估计这些参数。请注意，如果每幅图像都有各自独立的
+  一组内参，自动参数估计极有可能失败。
+- ``SIMPLE_RADIAL_FISHEYE``、``RADIAL_FISHEYE``、``OPENCV_FISHEYE``、``FOV``、
+  ``THIN_PRISM_FISHEYE``、``RAD_TAN_THIN_PRISM_FISHEYE``：将这些相机模型用于鱼眼镜头，
+  并请注意所有其他模型实际上都无法建模鱼眼镜头的畸变效应。``FOV`` 模型被 Google
+  Project Tango 使用（请确保不要将 ``omega`` 初始化为零）。
+- ``SIMPLE_FISHEYE``、``FISHEYE``：将这些相机模型用于采用等距投影的鱼眼镜头，其中畸变
+  可以忽略或已被预先校正。这些模型使用等距投影（theta = atan(r)），不带任何畸变参数。
+  ``SIMPLE_FISHEYE`` 有单个焦距（f），而 ``FISHEYE`` 有两个（fx、fy）。
+- ``SIMPLE_DIVISION``、``DIVISION``：如果你事先知道标定参数，请使用这些相机模型。与
+  ``SIMPLE_RADIAL`` 和 ``RADIAL`` 模型类似，它们可以建模简单的径向畸变效应。这两个模型
+  在小畸变情况下具有一阶局部等价性。
+- ``EUCM``：将此相机模型用于广角鱼眼相机和折反射系统。它在标准针孔参数之外，使用两个
+  参数来表示径向畸变。
+
+你可以通过在模型查看器中双击特定图像，或通过导出模型并打开 ``cameras.txt`` 文件，来
+查看估计得到的内参。
+
+为获得最佳重建结果，你可能需要针对你的问题尝试不同的相机模型。一般而言，当重建失败
+且估计得到的焦距值/畸变系数严重错误时，这是所用相机模型过于复杂的迹象。相反，如果
+COLMAP 使用了大量迭代式的局部和全局光束法平差，则是所用相机模型过于简单、无法充分
+建模畸变效应的迹象。
+
+你还可以在多幅图像之间共享内参以获得更可靠的结果
+（参见 :ref:`Share intrinsic camera parameters <faq-share-intrinsics>`），或者你可以
+在重建过程中固定内参
+（参见 :ref:`Fix intrinsic camera parameters <faq-fix-intrinsics>`）。
+
+有关不同相机模型参数的信息，请参阅相机模型头文件：
+https://github.com/colmap/colmap/blob/main/src/colmap/sensor/models.h

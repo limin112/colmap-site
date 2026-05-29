@@ -1,0 +1,45 @@
+.. _pycolmap/index:
+
+PyCOLMAP
+========
+
+PyCOLMAP 将 COLMAP 的大部分功能暴露给 Python。
+
+安装
+------------
+
+适用于 Linux、macOS 和 Windows 的预编译 wheel 包可通过 pip 安装::
+
+   pip install pycolmap
+
+这些 wheel 包会在每次发布时自动构建并推送到 `PyPI
+<https://pypi.org/project/pycolmap/>`_。
+若需启用 GPU 加速，可使用为 CUDA 12 构建的 wheel 包（目前仅支持 Linux），
+它们位于 `pycolmap-cuda12 包 <https://pypi.org/project/pycolmap-cuda12/>`_ 下。
+
+若要从源代码构建 PyCOLMAP，请按以下步骤操作：
+
+1. 按照 :ref:`installation` 从源代码安装 COLMAP。
+2. 构建 PyCOLMAP：
+
+   * 在 Linux 和 macOS 上::
+
+      python -m pip install .
+
+   * 在 Windows 上，通过 VCPKG 安装 COLMAP 后，在 powershell 中运行::
+
+      python -m pip install . `
+          --cmake.define.CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
+          --cmake.define.VCPKG_TARGET_TRIPLET="x64-windows"
+
+某些功能（例如代价函数）要求以与 PyCOLMAP 相同的方式安装 `PyCeres
+<https://github.com/cvg/pyceres>`_，即同样从 PyPI 或源代码安装。
+
+API
+------
+
+.. toctree::
+   :maxdepth: 2
+
+   pycolmap
+   cost_functions
