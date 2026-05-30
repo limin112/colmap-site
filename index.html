@@ -90,31 +90,35 @@
              
   <section id="colmap">
 <h1>COLMAP<a class="headerlink" href="#colmap" title="链接到此标题。"></a></h1>
-<figure class="align-center align-default" id="id10">
+<div class="admonition tip">
+<p class="admonition-title">小技巧</p>
+<p><strong>第一次接触 COLMAP？</strong> 先花 5 分钟看这份图文速读，快速建立完整心智模型 —— <a class="reference external" href="intro.html">⚡ 5 分钟速读 →</a></p>
+</div>
+<figure class="align-center align-default" id="id11">
 <img alt="罗马市中心的稀疏重建。" src="_images/sparse.png" />
 <figcaption>
-<p><span class="caption-text">由 COLMAP 的 SfM 流程基于 21K 张照片生成的罗马市中心稀疏模型。</span><a class="headerlink" href="#id10" title="链接到此图片"></a></p>
+<p><span class="caption-text">由 COLMAP 的 SfM 流程基于 21K 张照片生成的罗马市中心稀疏模型。</span><a class="headerlink" href="#id11" title="链接到此图片"></a></p>
 </figcaption>
 </figure>
-<figure class="align-center align-default" id="id11">
+<figure class="align-center align-default" id="id12">
 <img alt="多个地标的稠密重建。" src="_images/dense.png" />
 <figcaption>
-<p><span class="caption-text">由 COLMAP 的 MVS 流程生成的多个地标稠密模型。</span><a class="headerlink" href="#id11" title="链接到此图片"></a></p>
+<p><span class="caption-text">由 COLMAP 的 MVS 流程生成的多个地标稠密模型。</span><a class="headerlink" href="#id12" title="链接到此图片"></a></p>
 </figcaption>
 </figure>
-<section id="id1">
-<h2>关于<a class="headerlink" href="#id1" title="链接到此标题。"></a></h2>
+<section id="id2">
+<h2>关于<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
 <p>COLMAP 是一个通用的运动恢复结构（SfM）与多视图立体（MVS）流程，同时提供图形界面和命令行界面。
 它具备丰富的功能，可对有序和无序的图像集合进行重建。该软件基于新版 BSD 许可协议发布。</p>
 <p>最新源代码可在 <a class="reference external" href="https://github.com/colmap/colmap">GitHub</a> 获取。COLMAP 构建于已有工作之上，
 在使用 COLMAP 中的特定算法时，也请按照源代码中的说明引用相应的原作者。</p>
 </section>
-<section id="id2">
-<h2>下载<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<section id="id3">
+<h2>下载<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
 <p>可执行文件及其他资源可从 <a class="reference external" href="https://demuc.de/colmap/">https://demuc.de/colmap/</a> 下载。</p>
 </section>
-<section id="id3">
-<h2>快速上手<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
+<section id="id4">
+<h2>快速上手<a class="headerlink" href="#id4" title="链接到此标题。"></a></h2>
 <ol class="arabic simple">
 <li><p>下载 <a class="reference external" href="https://demuc.de/colmap/">预编译二进制文件</a>，或从 <a class="reference external" href="https://github.com/colmap/colmap">源代码</a>
 手动构建库（参见 <a class="reference internal" href="install.html#installation"><span class="std std-ref">安装</span></a>）。</p></li>
@@ -122,13 +126,13 @@
 <li><p>使用<strong>自动重建</strong>功能，只需单击即可轻松构建模型（参见 <a class="reference internal" href="tutorial.html#quick-start"><span class="std std-ref">快速开始</span></a>）。</p></li>
 </ol>
 </section>
-<section id="id6">
-<h2>支持<a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<section id="id7">
+<h2>支持<a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
 <p>如有问题，请使用 <a class="reference external" href="https://github.com/colmap/colmap/discussions">GitHub Discussions</a> 进行讨论；
 如需提交错误报告、功能请求/新增等，请使用 <a class="reference external" href="https://github.com/colmap/colmap">GitHub issue 跟踪器</a>。</p>
 </section>
-<section id="id7">
-<h2>引用<a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<section id="id8">
+<h2>引用<a class="headerlink" href="#id8" title="链接到此标题。"></a></h2>
 <p>如果你在研究中使用了本项目，请引用:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">schoenberger2016sfm</span><span class="p">,</span>
     <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Sch</span>\<span class="s2">&quot;</span><span class="si">{o}</span><span class="s2">nberger, Johannes Lutz and Frahm, Jan-Michael},</span>
@@ -164,8 +168,8 @@
 </pre></div>
 </div>
 </section>
-<section id="id8">
-<h2>致谢<a class="headerlink" href="#id8" title="链接到此标题。"></a></h2>
+<section id="id9">
+<h2>致谢<a class="headerlink" href="#id9" title="链接到此标题。"></a></h2>
 <p>COLMAP 最初由 <a class="reference external" href="https://demuc.de/">Johannes Schönberger</a> 编写，其博士导师 Jan-Michael Frahm
 与 Marc Pollefeys 提供了资助。当前核心项目维护者团队包括
 <a class="reference external" href="https://github.com/ahojnnes">Johannes Schönberger</a>、
