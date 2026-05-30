@@ -51,14 +51,14 @@
 <li class="toctree-l1"><a class="reference internal" href="features.html">特征提取与匹配</a></li>
 <li class="toctree-l1"><a class="reference internal" href="database.html">数据库格式</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cameras.html">相机模型</a></li>
-<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置（rig）支持</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rigs.html">相机装置支持</a></li>
 <li class="toctree-l1"><a class="reference internal" href="format.html">输出格式</a></li>
 <li class="toctree-l1"><a class="reference internal" href="datasets.html">数据集</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gui.html">图形用户界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cli.html">命令行界面</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pycolmap/index.html">PyCOLMAP</a></li>
 <li class="toctree-l1"><a class="reference internal" href="faq.html">常见问题</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志（Changelog）</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">更新日志</a></li>
 <li class="toctree-l1"><a class="reference internal" href="contribution.html">贡献指南</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">许可协议</a></li>
 <li class="toctree-l1"><a class="reference internal" href="bibliography.html">参考文献</a></li>
@@ -90,54 +90,46 @@
              
   <section id="colmap">
 <h1>COLMAP<a class="headerlink" href="#colmap" title="链接到此标题。"></a></h1>
-<figure class="align-center align-default" id="id2">
-<img alt="Sparse reconstruction of central Rome." src="_images/sparse.png" />
+<figure class="align-center align-default" id="id10">
+<img alt="罗马市中心的稀疏重建。" src="_images/sparse.png" />
 <figcaption>
-<p><span class="caption-text">Sparse model of central Rome using 21K photos produced by COLMAP's SfM
-pipeline.</span><a class="headerlink" href="#id2" title="链接到此图片"></a></p>
+<p><span class="caption-text">由 COLMAP 的 SfM 流程基于 21K 张照片生成的罗马市中心稀疏模型。</span><a class="headerlink" href="#id10" title="链接到此图片"></a></p>
 </figcaption>
 </figure>
-<figure class="align-center align-default" id="id3">
-<img alt="Dense reconstruction of landmarks." src="_images/dense.png" />
+<figure class="align-center align-default" id="id11">
+<img alt="多个地标的稠密重建。" src="_images/dense.png" />
 <figcaption>
-<p><span class="caption-text">Dense models of several landmarks produced by COLMAP's MVS pipeline.</span><a class="headerlink" href="#id3" title="链接到此图片"></a></p>
+<p><span class="caption-text">由 COLMAP 的 MVS 流程生成的多个地标稠密模型。</span><a class="headerlink" href="#id11" title="链接到此图片"></a></p>
 </figcaption>
 </figure>
-<section id="about">
-<h2>About<a class="headerlink" href="#about" title="链接到此标题。"></a></h2>
-<p>COLMAP is a general-purpose Structure-from-Motion (SfM) and Multi-View Stereo
-(MVS) pipeline with a graphical and command-line interface. It offers a wide
-range of features for reconstruction of ordered and unordered image collections.
-The software is licensed under the new BSD license.</p>
-<p>The latest source code is available at <a class="reference external" href="https://github.com/colmap/colmap">GitHub</a>. COLMAP builds on top of existing works and
-when using specific algorithms within COLMAP, please also cite the original
-authors, as specified in the source code.</p>
+<section id="id1">
+<h2>关于<a class="headerlink" href="#id1" title="链接到此标题。"></a></h2>
+<p>COLMAP 是一个通用的运动恢复结构（SfM）与多视图立体（MVS）流程，同时提供图形界面和命令行界面。
+它具备丰富的功能，可对有序和无序的图像集合进行重建。该软件基于新版 BSD 许可协议发布。</p>
+<p>最新源代码可在 <a class="reference external" href="https://github.com/colmap/colmap">GitHub</a> 获取。COLMAP 构建于已有工作之上，
+在使用 COLMAP 中的特定算法时，也请按照源代码中的说明引用相应的原作者。</p>
 </section>
-<section id="download">
-<h2>Download<a class="headerlink" href="#download" title="链接到此标题。"></a></h2>
-<p>Executables and other resources can be downloaded from <a class="reference external" href="https://demuc.de/colmap/">https://demuc.de/colmap/</a>.</p>
+<section id="id2">
+<h2>下载<a class="headerlink" href="#id2" title="链接到此标题。"></a></h2>
+<p>可执行文件及其他资源可从 <a class="reference external" href="https://demuc.de/colmap/">https://demuc.de/colmap/</a> 下载。</p>
 </section>
-<section id="getting-started">
-<h2>Getting Started<a class="headerlink" href="#getting-started" title="链接到此标题。"></a></h2>
+<section id="id3">
+<h2>快速上手<a class="headerlink" href="#id3" title="链接到此标题。"></a></h2>
 <ol class="arabic simple">
-<li><p>Download the <a class="reference external" href="https://demuc.de/colmap/">pre-built binaries</a> or build the
-library manually from <a class="reference external" href="https://github.com/colmap/colmap">source</a>
-(see <a class="reference internal" href="install.html#installation"><span class="std std-ref">Installation</span></a>).</p></li>
-<li><p>Download one of the provided datasets (see <a class="reference internal" href="datasets.html#datasets"><span class="std std-ref">Datasets</span></a>)
-or use your own images.</p></li>
-<li><p>Use the <strong>automatic reconstruction</strong> to easily build models
-with a single click (see <a class="reference internal" href="tutorial.html#quick-start"><span class="std std-ref">Quickstart</span></a>).</p></li>
+<li><p>下载 <a class="reference external" href="https://demuc.de/colmap/">预编译二进制文件</a>，或从 <a class="reference external" href="https://github.com/colmap/colmap">源代码</a>
+手动构建库（参见 <a class="reference internal" href="install.html#installation"><span class="std std-ref">安装</span></a>）。</p></li>
+<li><p>下载所提供的某个数据集（参见 <a class="reference internal" href="datasets.html#datasets"><span class="std std-ref">数据集</span></a>），或使用你自己的图像。</p></li>
+<li><p>使用<strong>自动重建</strong>功能，只需单击即可轻松构建模型（参见 <a class="reference internal" href="tutorial.html#quick-start"><span class="std std-ref">快速开始</span></a>）。</p></li>
 </ol>
 </section>
-<section id="support">
-<h2>Support<a class="headerlink" href="#support" title="链接到此标题。"></a></h2>
-<p>Please, use <a class="reference external" href="https://github.com/colmap/colmap/discussions">GitHub Discussions</a>
-for questions and the <a class="reference external" href="https://github.com/colmap/colmap">GitHub issue tracker</a>
-for bug reports, feature requests/additions, etc.</p>
+<section id="id6">
+<h2>支持<a class="headerlink" href="#id6" title="链接到此标题。"></a></h2>
+<p>如有问题，请使用 <a class="reference external" href="https://github.com/colmap/colmap/discussions">GitHub Discussions</a> 进行讨论；
+如需提交错误报告、功能请求/新增等，请使用 <a class="reference external" href="https://github.com/colmap/colmap">GitHub issue 跟踪器</a>。</p>
 </section>
-<section id="citation">
-<h2>Citation<a class="headerlink" href="#citation" title="链接到此标题。"></a></h2>
-<p>If you use this project for your research, please cite:</p>
+<section id="id7">
+<h2>引用<a class="headerlink" href="#id7" title="链接到此标题。"></a></h2>
+<p>如果你在研究中使用了本项目，请引用:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">schoenberger2016sfm</span><span class="p">,</span>
     <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Sch</span>\<span class="s2">&quot;</span><span class="si">{o}</span><span class="s2">nberger, Johannes Lutz and Frahm, Jan-Michael},</span>
     <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">Structure</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">Motion</span> <span class="n">Revisited</span><span class="p">},</span>
@@ -153,7 +145,7 @@ for bug reports, feature requests/additions, etc.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>If you use the global SfM pipeline (GLOMAP), please cite:</p>
+<p>如果你使用了全局 SfM 流程（GLOMAP），请引用:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">pan2024glomap</span><span class="p">,</span>
     <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Pan</span><span class="p">,</span> <span class="n">Linfei</span> <span class="ow">and</span> <span class="n">Barath</span><span class="p">,</span> <span class="n">Daniel</span> <span class="ow">and</span> <span class="n">Pollefeys</span><span class="p">,</span> <span class="n">Marc</span> <span class="ow">and</span> <span class="n">Sch</span>\<span class="s2">&quot;</span><span class="si">{o}</span><span class="s2">nberger, Johannes Lutz},</span>
     <span class="n">title</span><span class="o">=</span><span class="p">{{</span><span class="n">Global</span> <span class="n">Structure</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">Motion</span> <span class="n">Revisited</span><span class="p">}},</span>
@@ -162,7 +154,7 @@ for bug reports, feature requests/additions, etc.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>If you use the image retrieval / vocabulary tree engine, please cite:</p>
+<p>如果你使用了图像检索 / 词汇树引擎，请引用:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nd">@inproceedings</span><span class="p">{</span><span class="n">schoenberger2016vote</span><span class="p">,</span>
     <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Sch</span>\<span class="s2">&quot;</span><span class="si">{o}</span><span class="s2">nberger, Johannes Lutz and Price, True and Sattler, Torsten and Frahm, Jan-Michael and Pollefeys, Marc},</span>
     <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">A</span> <span class="n">Vote</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">Verify</span> <span class="n">Strategy</span> <span class="k">for</span> <span class="n">Fast</span> <span class="n">Spatial</span> <span class="n">Verification</span> <span class="ow">in</span> <span class="n">Image</span> <span class="n">Retrieval</span><span class="p">},</span>
@@ -172,21 +164,19 @@ for bug reports, feature requests/additions, etc.</p>
 </pre></div>
 </div>
 </section>
-<section id="acknowledgments">
-<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="链接到此标题。"></a></h2>
-<p>COLMAP was originally written by <a class="reference external" href="https://demuc.de/">Johannes Schönberger</a> with
-funding provided by his PhD advisors Jan-Michael Frahm and Marc Pollefeys.
-The team of core project maintainers currently includes
-<a class="reference external" href="https://github.com/ahojnnes">Johannes Schönberger</a>,
-<a class="reference external" href="https://github.com/sarlinpe">Paul-Edouard Sarlin</a>, and
-<a class="reference external" href="https://github.com/B1ueber2y">Shaohui Liu</a>.</p>
-<p>The Python bindings in PyCOLMAP were originally added by
-<a class="reference external" href="https://github.com/mihaidusmanu">Mihai Dusmanu</a>,
-<a class="reference external" href="https://github.com/Phil26AT">Philipp Lindenberger</a>, and
-<a class="reference external" href="https://github.com/sarlinpe">Paul-Edouard Sarlin</a>.</p>
-<p>The project has also benefitted from countless community contributions, including
-bug fixes, improvements, new features, third-party tooling, and community
-support (special credits to <a class="reference external" href="https://tsattler.github.io">Torsten Sattler</a>).</p>
+<section id="id8">
+<h2>致谢<a class="headerlink" href="#id8" title="链接到此标题。"></a></h2>
+<p>COLMAP 最初由 <a class="reference external" href="https://demuc.de/">Johannes Schönberger</a> 编写，其博士导师 Jan-Michael Frahm
+与 Marc Pollefeys 提供了资助。当前核心项目维护者团队包括
+<a class="reference external" href="https://github.com/ahojnnes">Johannes Schönberger</a>、
+<a class="reference external" href="https://github.com/sarlinpe">Paul-Edouard Sarlin</a> 和
+<a class="reference external" href="https://github.com/B1ueber2y">Shaohui Liu</a>。</p>
+<p>PyCOLMAP 中的 Python 绑定最初由
+<a class="reference external" href="https://github.com/mihaidusmanu">Mihai Dusmanu</a>、
+<a class="reference external" href="https://github.com/Phil26AT">Philipp Lindenberger</a> 和
+<a class="reference external" href="https://github.com/sarlinpe">Paul-Edouard Sarlin</a> 添加。</p>
+<p>本项目还得益于社区无数的贡献，包括错误修复、改进、新功能、第三方工具以及社区支持
+（特别感谢 <a class="reference external" href="https://tsattler.github.io">Torsten Sattler</a>）。</p>
 <div class="toctree-wrapper compound">
 </div>
 </section>
